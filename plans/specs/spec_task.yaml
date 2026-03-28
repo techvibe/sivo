@@ -17,6 +17,14 @@ intent_contract:
     - Must preserve deterministic replay semantics
 bdd_scenarios:
   - id: bdd-example-intent-alignment
+    intent_refs:
+      - desired_outcome
+      - constraints
+    spec_section_ids:
+      - SIVO-AGENT-002
+    acceptance_evidence:
+      - evidence_class: conformance
+        artifact: artifacts/conformance/example-intent-alignment.json
     given:
       - A task has a valid intent contract and policy envelope
     when:

@@ -85,6 +85,7 @@ Canonical events:
 - Event schemas include `event_id`, `timestamp`, `tenant_id`, `repo_id`, `trace_id`.
 - Event ingestion is idempotent.
 - Late-arriving events are handled deterministically.
+- `conformance_result_recorded` and `acceptance_result_recorded` events MUST carry `payload.metrics_snapshot.intent_contract_coverage` and `payload.metrics_snapshot.bdd_coverage_ratio`.
 - Canonical event schema is stored in `dashboard_data_contract_v1.json`.
 
 ## SIVO-DASH-006 Alerting and blockers

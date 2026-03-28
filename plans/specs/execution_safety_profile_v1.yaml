@@ -17,6 +17,28 @@ anomaly_triggers:
   - out_of_scope_mutation_detected
   - unexpected_tool_usage_detected
   - dependency_deadlock_detected
+classification_matrix:
+  policy_bypass_attempt:
+    severity: critical
+    action_profile: on_critical_anomaly
+  prompt_injection_signal:
+    severity: critical
+    action_profile: on_critical_anomaly
+  intent_contradiction_detected:
+    severity: high
+    action_profile: on_uncertainty_breach
+  out_of_scope_mutation_detected:
+    severity: critical
+    action_profile: on_critical_anomaly
+  unexpected_tool_usage_detected:
+    severity: high
+    action_profile: on_uncertainty_breach
+  dependency_deadlock_detected:
+    severity: high
+    action_profile: on_budget_breach
+unknown_trigger_policy:
+  severity: critical
+  action_profile: on_critical_anomaly
 actions:
   on_critical_anomaly:
     - pause_execution
@@ -34,6 +56,13 @@ approval:
     - release_owner
     - security_owner
   requires_signed_justification: true
+drill_policy:
+  breaker_drill:
+    minimum_cadence_days: 14
+    required_evidence:
+      - breaker_activation_event
+      - fallback_mode_change_event
+      - signed_breaker_reset_approval
 observability:
   required_events:
     - guardrail_breach_detected

@@ -67,6 +67,7 @@ Required controls:
 - Fault-injection tests include outlier and adversarial scenarios.
 - Kill-switch and rollback drills run on a defined cadence.
 - Release is blocked if safety drill coverage falls below threshold.
+- Canonical fixture suites are maintained in `fixtures/outlier_fault_fixtures_v1.yaml` and `fixtures/prompt_injection_fixtures_v1.yaml`.
 
 ## SIVO-SAFE-008 Advanced hardening controls
 
@@ -74,3 +75,12 @@ Required controls:
 - Red-team corpus policy is enforced via `redteam_corpus_policy_v1.yaml`.
 - Differential safety equivalence is enforced via `differential_safety_matrix_v1.yaml`.
 - Canary and break-glass governance is enforced via `canary_and_breakglass_policy_v1.yaml`.
+
+## SIVO-SAFE-009 Deterministic anomaly classification
+
+Every anomaly trigger MUST map to a deterministic severity and action profile in `execution_safety_profile_v1.yaml` under `classification_matrix`.
+
+### Acceptance criteria
+- Unknown anomaly classes fail closed using `unknown_trigger_policy`.
+- Trigger-to-action mapping is fixture-validated and auditable.
+- Classification changes require explicit review from safety and release owners.

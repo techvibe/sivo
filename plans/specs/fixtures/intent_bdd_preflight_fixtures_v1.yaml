@@ -1,0 +1,184 @@
+version: "1.0.0"
+suite_id: intent-bdd-preflight-fixtures-v1
+description: Fixture set for intent/BDD preflight enforcement and bypass resistance.
+fixtures:
+  - fixture_id: valid_minimal_in_progress
+    description: In-progress task with complete intent, BDD, and traceability payload.
+    expected_result:
+      preflight: pass
+      reason: all-required-fields-present
+    task:
+      task_id: SIVO-TASK-FIXTURE-VALID-001
+      title: Valid in-progress fixture for intent BDD checks
+      spec_section_ids: [SIVO-INTENT-001]
+      objective: Validate schema and preflight acceptance for in-progress tasks.
+      intent_contract:
+        problem_statement: Autonomous drift risks unsafe mutations without bounded intent.
+        desired_outcome: Execution remains bounded and verifiable before mutation.
+        non_goals: [Allowing execution without behavior contracts]
+        success_signals: [Preflight pass with complete scenario linkage]
+        constraints: [Verify-first policy gate remains enabled]
+      bdd_scenarios:
+        - id: bdd-fixture-valid
+          intent_refs: [desired_outcome, constraints]
+          spec_section_ids: [SIVO-INTENT-001]
+          acceptance_evidence:
+            - evidence_class: conformance
+              artifact: plans/specs/fixtures/intent_bdd_preflight_fixtures_v1.yaml
+          given: [A task has a complete contract]
+          when: [Preflight validator runs]
+          then: [Task is allowed to start]
+      adr_requirements:
+        required: true
+        adr_scope: [execution-governance]
+        evidence_classes: [conformance]
+      empirical_validation_plan:
+        datasets_or_fixtures: [intent-bdd-preflight-fixtures-v1]
+        success_thresholds: [zero-preflight-bypass]
+        confidence_reporting: true
+      usability_criteria:
+        primary_personas: [agent_operator]
+        key_journeys: [submit-task-and-pass-preflight]
+        max_critical_journey_fail_rate: 0.02
+      scope:
+        paths: [plans/specs/spec_task.schema.yaml]
+        services: [validation-service]
+      policy_envelope:
+        allowed_operations: [read]
+        prohibited_operations: [bypass_policy]
+        required_approvals: [architecture_owner]
+        required_checks: [intent_schema_check, bdd_schema_check]
+      acceptance_tests:
+        - id: fixture-valid-pass
+          description: Valid fixture passes preflight.
+          verification_type: conformance
+      observability:
+        metrics: [intent_contract_coverage]
+        events: [conformance_result_recorded]
+      rollback_strategy:
+        type: manual
+        trigger_conditions: [schema-regression]
+      dependencies: []
+      owner: test-fixtures
+      status: in_progress
+      priority:
+        level: high
+        score: 80
+      progress: 10
+      confidence: 0.5
+
+  - fixture_id: missing_intent_contract
+    description: Task omits intent contract and must be blocked.
+    expected_result:
+      preflight: fail
+      error_code: intent_contract_missing
+      reason: intent-required
+    task:
+      task_id: SIVO-TASK-FIXTURE-INVALID-001
+      title: Invalid fixture missing intent contract
+      spec_section_ids: [SIVO-INTENT-001]
+      objective: Ensure preflight blocks missing intent contract.
+      bdd_scenarios:
+        - id: bdd-invalid-missing-intent
+          given: [Task has no intent contract]
+          when: [Preflight runs]
+          then: [Task is blocked]
+      adr_requirements:
+        required: true
+        adr_scope: [execution-governance]
+        evidence_classes: [conformance]
+      empirical_validation_plan:
+        datasets_or_fixtures: [intent-bdd-preflight-fixtures-v1]
+        success_thresholds: [zero-preflight-bypass]
+        confidence_reporting: true
+      usability_criteria:
+        primary_personas: [agent_operator]
+        key_journeys: [submit-task-and-pass-preflight]
+        max_critical_journey_fail_rate: 0.02
+      scope:
+        paths: [plans/specs/spec_task.schema.yaml]
+        services: [validation-service]
+      policy_envelope:
+        allowed_operations: [read]
+        prohibited_operations: [bypass_policy]
+        required_approvals: [architecture_owner]
+        required_checks: [intent_schema_check]
+      acceptance_tests:
+        - id: fixture-invalid-intent
+          description: Missing intent contract fails preflight.
+          verification_type: conformance
+      observability:
+        metrics: [intent_contract_coverage]
+        events: [conformance_result_recorded]
+      rollback_strategy:
+        type: manual
+        trigger_conditions: [schema-regression]
+      dependencies: []
+      owner: test-fixtures
+      status: planned
+      priority:
+        level: high
+        score: 80
+      progress: 0
+      confidence: 0.0
+
+  - fixture_id: missing_bdd_traceability_payload
+    description: In-progress task omits status-aware BDD traceability payload and must fail.
+    expected_result:
+      preflight: fail
+      error_code: bdd_traceability_missing
+      reason: intent-to-bdd-link-required-in-active-status
+    task:
+      task_id: SIVO-TASK-FIXTURE-INVALID-002
+      title: Invalid fixture missing active-status traceability payload
+      spec_section_ids: [SIVO-INTENT-004]
+      objective: Ensure active task BDD traceability payload is enforced.
+      intent_contract:
+        problem_statement: Missing traceability weakens conformance accountability.
+        desired_outcome: Active tasks expose deterministic intent-to-evidence mapping.
+        non_goals: [Allowing active execution without trace links]
+        success_signals: [Validator rejects missing traceability payload]
+        constraints: [Status-aware enforcement must remain deterministic]
+      bdd_scenarios:
+        - id: bdd-invalid-missing-traceability
+          given: [Task is in progress]
+          when: [Scenario omits traceability fields]
+          then: [Preflight fails]
+      adr_requirements:
+        required: true
+        adr_scope: [task-contract]
+        evidence_classes: [conformance]
+      empirical_validation_plan:
+        datasets_or_fixtures: [intent-bdd-preflight-fixtures-v1]
+        success_thresholds: [zero-preflight-bypass]
+        confidence_reporting: true
+      usability_criteria:
+        primary_personas: [agent_operator]
+        key_journeys: [submit-task-and-pass-preflight]
+        max_critical_journey_fail_rate: 0.02
+      scope:
+        paths: [plans/specs/spec_task.schema.yaml]
+        services: [validation-service]
+      policy_envelope:
+        allowed_operations: [read]
+        prohibited_operations: [bypass_policy]
+        required_approvals: [architecture_owner]
+        required_checks: [bdd_schema_check, intent_to_bdd_traceability_check]
+      acceptance_tests:
+        - id: fixture-invalid-traceability
+          description: Missing traceability on active task fails preflight.
+          verification_type: conformance
+      observability:
+        metrics: [bdd_coverage_ratio]
+        events: [conformance_result_recorded]
+      rollback_strategy:
+        type: manual
+        trigger_conditions: [schema-regression]
+      dependencies: []
+      owner: test-fixtures
+      status: in_progress
+      priority:
+        level: high
+        score: 80
+      progress: 0
+      confidence: 0.0

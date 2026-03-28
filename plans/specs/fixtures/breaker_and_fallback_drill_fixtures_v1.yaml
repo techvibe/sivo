@@ -1,0 +1,30 @@
+version: "1.0.0"
+suite_id: breaker-and-fallback-drill-fixtures-v1
+description: Deterministic drill evidence for breaker activation, fallback transition, and signed reset approval.
+drills:
+  - drill_id: drill-critical-anomaly-001
+    trigger: policy_bypass_attempt
+    expected_sequence:
+      - event: circuit_breaker_activated
+      - event: fallback_mode_changed
+        mode: read_only_safe_mode
+      - event: circuit_breaker_reset
+        approval:
+          required_roles:
+            - release_owner
+            - security_owner
+          signed_justification_required: true
+    expected_outcome:
+      mutation_paused: true
+      promotion_paused: true
+      lineage_continuity_preserved: true
+
+  - drill_id: drill-uncertainty-escalation-001
+    trigger: intent_contradiction_detected
+    expected_sequence:
+      - event: uncertainty_breach_detected
+      - event: fallback_mode_changed
+        mode: human_approval_only
+    expected_outcome:
+      mutation_paused: true
+      escalation_required: true

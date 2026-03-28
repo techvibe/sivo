@@ -1,0 +1,31 @@
+version: "1.0.0"
+suite_id: outlier-fault-fixtures-v1
+description: Fault injection fixtures for fail-closed outlier handling and breaker behavior.
+fixtures:
+  - fixture_id: critical_policy_bypass_attempt
+    trigger: policy_bypass_attempt
+    expected:
+      action_profile: on_critical_anomaly
+      required_actions:
+        - pause_execution
+        - enable_read_only_safe_mode
+        - notify_security_owner
+        - require_root_cause_record
+      fallback_mode: read_only_safe_mode
+      mutation_allowed: false
+  - fixture_id: uncertainty_breach_on_intent_contradiction
+    trigger: intent_contradiction_detected
+    expected:
+      action_profile: on_uncertainty_breach
+      required_actions:
+        - pause_mutation
+        - require_human_review
+      mutation_allowed: false
+  - fixture_id: unknown_trigger_fails_closed
+    trigger: unknown_unclassified_anomaly
+    expected:
+      action_profile: on_critical_anomaly
+      required_actions:
+        - pause_execution
+        - enable_read_only_safe_mode
+      mutation_allowed: false

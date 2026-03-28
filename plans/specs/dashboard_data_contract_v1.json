@@ -30,5 +30,49 @@
     "repo_id": { "type": "string" },
     "trace_id": { "type": "string" },
     "payload": { "type": "object" }
-  }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "event_type": {
+            "enum": [
+              "conformance_result_recorded",
+              "acceptance_result_recorded"
+            ]
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "payload": {
+            "type": "object",
+            "required": ["metrics_snapshot"],
+            "properties": {
+              "metrics_snapshot": {
+                "type": "object",
+                "additionalProperties": true,
+                "required": [
+                  "intent_contract_coverage",
+                  "bdd_coverage_ratio"
+                ],
+                "properties": {
+                  "intent_contract_coverage": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                  },
+                  "bdd_coverage_ratio": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
 }

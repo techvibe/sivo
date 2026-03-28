@@ -65,3 +65,15 @@ Intent-driven and BDD gates run before mutation operations.
 - Preflight fails when behavior coverage is below configured threshold.
 - Intent drift detection triggers task pause and human review.
 - Override requires role-scoped approval and expiry.
+
+## SIVO-INTENT-007 Status-aware traceability payload
+
+When a task enters `in_progress` or `completed`, each BDD scenario MUST include explicit traceability payload fields that bind behavior to intent and evidence:
+- `intent_refs` (one or more intent clauses)
+- `spec_section_ids` (one or more governing spec section IDs)
+- `acceptance_evidence` (one or more artifact references with evidence class)
+
+### Acceptance criteria
+- Schema validation rejects in-progress/completed tasks that omit any required traceability payload field.
+- Every in-progress/completed scenario can be traced from intent clause -> scenario -> evidence artifact.
+- Planned tasks MAY defer traceability payload fields until activation, but must satisfy them before execution starts.

@@ -2,6 +2,16 @@ $schema: "https://json-schema.org/draft/2020-12/schema"
 title: SivoSpecTask
 type: object
 additionalProperties: false
+allOf:
+  - if:
+      properties:
+        status:
+          enum: [in_progress, completed]
+    then:
+      properties:
+        bdd_scenarios:
+          items:
+            required: [id, given, when, then, intent_refs, spec_section_ids, acceptance_evidence]
 required:
   - task_id
   - title
@@ -69,6 +79,32 @@ properties:
       required: [id, given, when, then]
       properties:
         id: { type: string }
+        intent_refs:
+          type: array
+          minItems: 1
+          items:
+            type: string
+            enum: [problem_statement, desired_outcome, non_goals, success_signals, constraints]
+        spec_section_ids:
+          type: array
+          minItems: 1
+          items:
+            type: string
+            pattern: "^SIVO-[A-Z]+-[0-9]{3}$"
+        acceptance_evidence:
+          type: array
+          minItems: 1
+          items:
+            type: object
+            additionalProperties: false
+            required: [evidence_class, artifact]
+            properties:
+              evidence_class:
+                type: string
+                enum: [conformance, e2e, benchmark, resilience, usability, policy]
+              artifact:
+                type: string
+                minLength: 3
         given:
           type: array
           minItems: 1

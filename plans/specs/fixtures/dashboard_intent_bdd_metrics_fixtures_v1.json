@@ -1,0 +1,55 @@
+{
+  "version": "1.0.0",
+  "suite_id": "dashboard-intent-bdd-metrics-fixtures-v1",
+  "description": "Fixture events proving dashboard visibility for intent and BDD coverage metrics.",
+  "events": [
+    {
+      "event_id": "evt-ibdd-001",
+      "event_type": "conformance_result_recorded",
+      "timestamp": "2026-03-28T20:12:49Z",
+      "tenant_id": "tenant-demo",
+      "repo_id": "sivo",
+      "trace_id": "trace-ibdd-001",
+      "payload": {
+        "task_id": "SIVO-TASK-INTENT_BDD_FOUNDATION",
+        "check_id": "intent_schema_check",
+        "result": "pass",
+        "metrics_snapshot": {
+          "intent_contract_coverage": 1.0,
+          "bdd_coverage_ratio": 1.0
+        }
+      }
+    },
+    {
+      "event_id": "evt-ibdd-002",
+      "event_type": "acceptance_result_recorded",
+      "timestamp": "2026-03-28T20:12:49Z",
+      "tenant_id": "tenant-demo",
+      "repo_id": "sivo",
+      "trace_id": "trace-ibdd-002",
+      "payload": {
+        "task_id": "SIVO-TASK-INTENT_BDD_FOUNDATION",
+        "test_id": "intent-bdd-dashboard-visibility",
+        "result": "pass",
+        "metrics_snapshot": {
+          "intent_contract_coverage": 1.0,
+          "bdd_coverage_ratio": 1.0
+        }
+      }
+    }
+  ],
+  "expected_outcome": {
+    "dashboard_metric_assertions": [
+      {
+        "metric": "intent_contract_coverage",
+        "condition": "equals",
+        "value": 1.0
+      },
+      {
+        "metric": "bdd_coverage_ratio",
+        "condition": "equals",
+        "value": 1.0
+      }
+    ]
+  }
+}

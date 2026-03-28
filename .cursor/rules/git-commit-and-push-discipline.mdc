@@ -1,0 +1,14 @@
+---
+description: Commit and push discipline for autonomous execution
+alwaysApply: true
+---
+
+# Commit and Push Discipline
+
+- Maintain small, reviewable commits as work progresses.
+- Commit after each meaningful milestone or logical batch of changes.
+- Before each commit, run `git status`, review `git diff`, and confirm commit scope.
+- Use clear commit messages that state intent and why the change was made.
+- Push to the tracked remote branch after successful commits.
+- If push is blocked (auth, remote, protection), record the blocker and continue local commits.
+- Never use destructive git operations unless explicitly requested.

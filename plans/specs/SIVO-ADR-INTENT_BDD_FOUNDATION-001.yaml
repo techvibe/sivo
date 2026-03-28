@@ -1,0 +1,24 @@
+adr_id: SIVO-ADR-INTENT_BDD_FOUNDATION-001
+status: accepted
+decision_context: Intent and BDD fields already existed in task contracts, but traceability between intent clauses, scenarios, and measurable artifacts was not explicit enough for deterministic preflight enforcement.
+options_considered:
+  - Keep current schema with only id/given/when/then and rely on external linting.
+  - Add mandatory traceability fields for all tasks immediately.
+  - Enforce traceability fields when tasks move to in_progress or completed.
+decision: Enforce BDD traceability fields for in_progress/completed tasks in schema, while keeping planned tasks backward compatible to avoid blocking backlog authoring.
+tradeoffs:
+  - Pro: In-flight and completed execution work must provide machine-checkable intent-to-evidence links.
+  - Pro: Existing planned backlog items remain valid and can be upgraded incrementally.
+  - Con: Planned tasks do not guarantee full traceability until activated.
+  - Con: Validators need status-aware logic from schema allOf conditions.
+evidence_refs:
+  - plans/specs/spec_task.schema.yaml
+  - plans/specs/spec_task.yaml
+  - plans/specs/spec_task.backlog.yaml
+rollback_or_supersession_plan: If this gating model is too permissive, supersede with a stricter ADR that requires traceability fields for all statuses and bulk-upgrade backlog entries.
+spec_section_ids:
+  - SIVO-INTENT-001
+  - SIVO-INTENT-004
+  - SIVO-AGENT-009
+task_ids:
+  - SIVO-TASK-INTENT_BDD_FOUNDATION

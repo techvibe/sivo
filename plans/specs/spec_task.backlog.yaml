@@ -11,6 +11,13 @@ tasks:
       constraints: [Must remain compatible with verify-first gate policy and dashboard telemetry]
     bdd_scenarios:
       - id: bdd-intent-required-preflight
+        intent_refs: [problem_statement, desired_outcome, constraints]
+        spec_section_ids: [SIVO-INTENT-001, SIVO-INTENT-004]
+        acceptance_evidence:
+          - evidence_class: conformance
+            artifact: plans/specs/SIVO-ADR-INTENT_BDD_FOUNDATION-001.yaml
+          - evidence_class: e2e
+            artifact: plans/specs/spec_task.schema.yaml
         given: [A task without intent contract or BDD scenarios]
         when: [Execution preflight runs]
         then: [Task is blocked with deterministic validation errors]
@@ -33,7 +40,7 @@ tasks:
       allowed_operations: [read, write_spec_docs, run_schema_validation]
       prohibited_operations: [bypass_policy]
       required_approvals: [architecture_owner, release_owner]
-      required_checks: [intent_schema_check, bdd_schema_check, preflight_enforcement_test]
+      required_checks: [intent_schema_check, bdd_schema_check, intent_to_bdd_traceability_check, preflight_enforcement_test]
     acceptance_tests:
       - id: intent-bdd-schema-enforced
         description: Task schema requires intent and BDD fields for execution.
@@ -49,13 +56,13 @@ tasks:
       trigger_conditions: [schema_regression, preflight_bypass_detected]
     dependencies: []
     owner: architecture-governance
-    status: planned
+    status: completed
     priority:
       level: critical
       score: 97
       rationale: Intent and behavior guardrails are the root safety layer for autonomous execution.
-    progress: 0
-    confidence: 0.0
+    progress: 100
+    confidence: 0.91
 
   - task_id: SIVO-TASK-OUTLIER_SAFETY_FOUNDATION
     title: Implement exception and outlier safety controls
@@ -69,6 +76,13 @@ tasks:
       constraints: [Must be auditable, tenant-configurable, and verification-gated]
     bdd_scenarios:
       - id: bdd-critical-anomaly-fail-closed
+        intent_refs: [problem_statement, desired_outcome, constraints]
+        spec_section_ids: [SIVO-SAFE-001, SIVO-SAFE-003, SIVO-SAFE-004]
+        acceptance_evidence:
+          - evidence_class: conformance
+            artifact: plans/specs/fixtures/outlier_fault_fixtures_v1.yaml
+          - evidence_class: resilience
+            artifact: plans/specs/outlier_safety_foundation_milestone1_report.md
         given: [A critical anomaly signal is detected during mutation]
         when: [Safety controller evaluates the event]
         then: [Execution pauses, safe mode is enabled, and escalation is emitted]
@@ -91,7 +105,7 @@ tasks:
       allowed_operations: [read, write_spec_docs, run_fault_injection]
       prohibited_operations: [bypass_policy, auto-reset-breaker-without-approval]
       required_approvals: [security_owner, release_owner]
-      required_checks: [outlier-safety-conformance, breaker-drill, uncertainty-gate-tests]
+      required_checks: [outlier-safety-conformance, deterministic-anomaly-classification-check, breaker-drill, uncertainty-gate-tests]
     acceptance_tests:
       - id: safety-fail-closed
         description: Critical anomalies force fail-closed behavior and stop mutation.
@@ -107,13 +121,13 @@ tasks:
       trigger_conditions: [safety-policy-regression, breaker-reset-policy-violation]
     dependencies: [SIVO-TASK-INTENT_BDD_FOUNDATION]
     owner: safety-engineering
-    status: planned
+    status: completed
     priority:
       level: critical
       score: 98
       rationale: Outlier safety controls are required to prevent guardrail escape in autonomous runs.
-    progress: 0
-    confidence: 0.0
+    progress: 100
+    confidence: 0.89
 
   - task_id: SIVO-TASK-ADV_HARDENING_FOUNDATION
     title: Implement red-team, differential safety, canary, and break-glass governance
@@ -127,6 +141,13 @@ tasks:
       constraints: [Must produce signed evidence and break-glass audit trails]
     bdd_scenarios:
       - id: bdd-adversarial-gate-block
+        intent_refs: [problem_statement, desired_outcome, constraints]
+        spec_section_ids: [SIVO-HARDEN-001, SIVO-HARDEN-003, SIVO-HARDEN-004, SIVO-HARDEN-005]
+        acceptance_evidence:
+          - evidence_class: conformance
+            artifact: plans/specs/sivo_redteam_diff_canary_and_breakglass_v1.md
+          - evidence_class: resilience
+            artifact: plans/specs/redteam_hardening_milestone1_report.md
         given: [A safety-sensitive release candidate with failed red-team cases]
         when: [Release gate evaluation runs]
         then: [Release is blocked and remediation tasks are created]
@@ -165,13 +186,13 @@ tasks:
       trigger_conditions: [adversarial-regression, canary-safety-regression]
     dependencies: [SIVO-TASK-OUTLIER_SAFETY_FOUNDATION]
     owner: safety-engineering
-    status: planned
+    status: in_progress
     priority:
       level: critical
       score: 96
       rationale: Advanced hardening prevents guardrail bypass during high-risk rollout conditions.
-    progress: 0
-    confidence: 0.0
+    progress: 12
+    confidence: 0.56
 
   - task_id: SIVO-TASK-PQ_CRYPTO_FOUNDATION
     title: Implement post-quantum-hybrid crypto policy and conformance gates
