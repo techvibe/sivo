@@ -1,0 +1,23 @@
+version: "1.0.0"
+suite_id: gate-order-fixtures-v1
+description: Verification pipeline fixtures validating non-skippable stage order.
+pipelines:
+  - fixture_id: ordered-pass
+    attempted_sequence:
+      - stage_1_spec_integrity
+      - stage_2_conformance_security
+      - stage_3_e2e_workflows
+      - stage_4_performance_resilience
+      - stage_5_release_decision
+    expected_result:
+      allowed: true
+      reason: strict_order_satisfied
+
+  - fixture_id: skip-block
+    attempted_sequence:
+      - stage_1_spec_integrity
+      - stage_3_e2e_workflows
+    expected_result:
+      allowed: false
+      reason: cannot_skip_prior_stage
+      blocking_stage: stage_2_conformance_security

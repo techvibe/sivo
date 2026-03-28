@@ -1,14 +1,15 @@
 ---
 version: 1.0.0
 project: sivo
-last_update_utc: '2026-03-28T20:21:54Z'
+last_update_utc: '2026-03-28T21:04:01Z'
 current_phase: foundation_hardening
-current_task_id: SIVO-TASK-VERIFY_FOUNDATION
+current_task_id: SIVO-TASK-PROT_V1_BASE
 current_task_status: in_progress
 last_completed_tasks:
 - SIVO-TASK-INTENT_BDD_FOUNDATION
 - SIVO-TASK-OUTLIER_SAFETY_FOUNDATION
 - SIVO-TASK-ADV_HARDENING_FOUNDATION
+- SIVO-TASK-VERIFY_FOUNDATION
 next_task_candidates:
 - SIVO-TASK-INTENT_BDD_FOUNDATION
 - SIVO-TASK-OUTLIER_SAFETY_FOUNDATION
@@ -17,7 +18,7 @@ next_task_candidates:
 gate_status:
   stage_1_spec_integrity: completed
   stage_2_conformance_security: completed
-  stage_3_e2e_workflows: in_progress
+  stage_3_e2e_workflows: completed
   stage_4_performance_resilience: not_started
   stage_5_release_decision: not_started
 blockers: []
@@ -43,11 +44,17 @@ latest_artifacts:
 - plans/specs/fixtures/differential_safety_fixtures_v1.yaml
 - plans/specs/fixtures/canary_governance_fixtures_v1.yaml
 - plans/specs/sivo_redteam_diff_canary_and_breakglass_v1.md
+- plans/specs/fixtures/gate_order_fixtures_v1.yaml
+- plans/specs/fixtures/waiver_policy_fixtures_v1.yaml
+- plans/specs/fixtures/evidence_bundle_fixtures_v1.yaml
+- plans/specs/verify_foundation_completion_report.md
+- plans/specs/protocol_v1_milestone1_report.md
 notes:
 - Resume from foundation tasks in strict dependency order.
 - Fail closed on anomaly or uncertainty breaches.
 - SIVO-TASK-INTENT_BDD_FOUNDATION marked completed with fixture-backed preflight and dashboard visibility evidence.
 - SIVO-TASK-OUTLIER_SAFETY_FOUNDATION marked completed with fixture-backed fail-closed, uncertainty, and breaker drill evidence.
 - SIVO-TASK-ADV_HARDENING_FOUNDATION marked completed with fixture-backed red-team, differential, and canary governance evidence.
-- Execution advanced automatically to SIVO-TASK-VERIFY_FOUNDATION.
+- SIVO-TASK-VERIFY_FOUNDATION marked completed with fixture-backed stage order, waiver, and evidence bundle gate validation.
+- Execution advanced automatically to SIVO-TASK-PROT_V1_BASE.
 - Outlier safety milestone 1 implemented: deterministic anomaly classification and fixture-backed fail-closed expectations are in place.

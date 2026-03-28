@@ -322,6 +322,13 @@ tasks:
       constraints: [Must integrate with CI gate service, must emit auditable evidence]
     bdd_scenarios:
       - id: bdd-verify-stage-order
+        intent_refs: [problem_statement, desired_outcome, constraints]
+        spec_section_ids: [SIVO-VER-001, SIVO-VER-005, SIVO-AGENT-008]
+        acceptance_evidence:
+          - evidence_class: conformance
+            artifact: plans/specs/fixtures/gate_order_fixtures_v1.yaml
+          - evidence_class: conformance
+            artifact: plans/specs/verify_foundation_completion_report.md
         given: [A pipeline with configured stage gates]
         when: [A later stage is attempted before prior critical stage passes]
         then: [Pipeline blocks execution and records a conformance failure]
@@ -360,13 +367,13 @@ tasks:
       trigger_conditions: [gate_enforcement_failure, evidence_chain_break]
     dependencies: [SIVO-TASK-INTENT_BDD_FOUNDATION, SIVO-TASK-OUTLIER_SAFETY_FOUNDATION, SIVO-TASK-ADV_HARDENING_FOUNDATION]
     owner: release-engineering
-    status: in_progress
+    status: completed
     priority:
       level: critical
       score: 95
       rationale: Verify-first execution guarantees are prerequisite to safe autonomous build.
-    progress: 10
-    confidence: 0.52
+    progress: 100
+    confidence: 0.9
 
   - task_id: SIVO-TASK-PROT_V1_BASE
     title: Publish protocol v1 schemas and invariants
@@ -380,6 +387,13 @@ tasks:
       constraints: [Backward-compatible additive evolution only]
     bdd_scenarios:
       - id: bdd-protocol-determinism
+        intent_refs: [problem_statement, desired_outcome, constraints]
+        spec_section_ids: [SIVO-PROT-002, SIVO-PROT-003, SIVO-PROT-004, SIVO-PROT-005]
+        acceptance_evidence:
+          - evidence_class: conformance
+            artifact: plans/specs/sivo_protocol_v1.md
+          - evidence_class: benchmark
+            artifact: plans/specs/protocol_v1_milestone1_report.md
         given: [A canonical event stream and fixed policy version]
         when: [Protocol replay is executed twice]
         then: [Terminal state and projection identifiers are identical]
@@ -418,13 +432,13 @@ tasks:
       trigger_conditions: [conformance_failure, schema_breaking_change]
     dependencies: [SIVO-TASK-VERIFY_FOUNDATION]
     owner: core-protocol
-    status: planned
+    status: in_progress
     priority:
       level: critical
       score: 92
       rationale: Protocol determinism and schema correctness are foundational for all downstream services.
-    progress: 0
-    confidence: 0.0
+    progress: 10
+    confidence: 0.5
 
   - task_id: SIVO-TASK-DUALMODE_RC
     title: Implement dual-mode reconcile and drift gates

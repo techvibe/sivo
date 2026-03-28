@@ -87,3 +87,13 @@ Mandatory evidence:
 - Evidence artifacts have stable schemas and version tags.
 - Evidence is queryable by `session_id`, `task_id`, and release version.
 - Audit export contains full evidence chain.
+
+## SIVO-VER-007 Fixture-backed orchestration determinism
+
+Verify-first orchestration behavior MUST be validated with canonical fixtures covering stage order, waiver controls, and evidence bundle completeness.
+
+### Acceptance criteria
+- Stage order fixtures are maintained in `fixtures/gate_order_fixtures_v1.yaml`.
+- Waiver policy fixtures are maintained in `fixtures/waiver_policy_fixtures_v1.yaml`.
+- Evidence bundle fixtures are maintained in `fixtures/evidence_bundle_fixtures_v1.yaml`.
+- Each fixture suite includes both passing and blocking scenarios with deterministic expected results.

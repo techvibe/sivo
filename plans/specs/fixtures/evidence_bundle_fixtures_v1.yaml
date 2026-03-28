@@ -1,0 +1,47 @@
+version: "1.0.0"
+suite_id: evidence-bundle-fixtures-v1
+description: Fixtures validating required artifact completeness at release decision.
+required_artifacts:
+  - conformance_report
+  - policy_report
+  - benchmark_report
+  - resilience_report
+  - completeness_report
+  - outlier_safety_report
+  - redteam_report
+  - differential_safety_report
+  - canary_rollout_report
+  - breakglass_audit_report
+  - post_quantum_crypto_report
+bundle_fixtures:
+  - fixture_id: bundle-complete
+    artifacts_present:
+      - conformance_report
+      - policy_report
+      - benchmark_report
+      - resilience_report
+      - completeness_report
+      - outlier_safety_report
+      - redteam_report
+      - differential_safety_report
+      - canary_rollout_report
+      - breakglass_audit_report
+      - post_quantum_crypto_report
+    expected_result:
+      allowed: true
+      reason: evidence_bundle_complete
+  - fixture_id: bundle-missing-critical-artifact
+    artifacts_present:
+      - conformance_report
+      - policy_report
+      - benchmark_report
+      - resilience_report
+      - completeness_report
+      - outlier_safety_report
+      - redteam_report
+      - differential_safety_report
+      - canary_rollout_report
+      - breakglass_audit_report
+    expected_result:
+      allowed: false
+      reason: required_artifact_missing_post_quantum_crypto_report

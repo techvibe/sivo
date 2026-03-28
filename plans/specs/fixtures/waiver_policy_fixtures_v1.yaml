@@ -1,0 +1,27 @@
+version: "1.0.0"
+suite_id: waiver-policy-fixtures-v1
+description: Fixtures validating signed, time-bound waiver controls.
+waiver_fixtures:
+  - fixture_id: waiver-valid
+    approvers: [release_owner, security_owner]
+    days_to_expiry: 7
+    signed_justification: true
+    expected_result:
+      allowed: true
+      reason: waiver_policy_satisfied
+
+  - fixture_id: waiver-missing-signature
+    approvers: [release_owner, security_owner]
+    days_to_expiry: 7
+    signed_justification: false
+    expected_result:
+      allowed: false
+      reason: signed_justification_required
+
+  - fixture_id: waiver-expired-window
+    approvers: [release_owner, security_owner]
+    days_to_expiry: 20
+    signed_justification: true
+    expected_result:
+      allowed: false
+      reason: waiver_expiry_exceeds_max_days
