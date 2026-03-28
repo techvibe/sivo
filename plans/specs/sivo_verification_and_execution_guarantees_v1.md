@@ -51,6 +51,7 @@ Sivo must validate no-gap functionality for:
 - intent-driven execution and BDD scenario fulfillment
 - production quality and customer usability journeys
 - deployment mode guarantees (self-hosted and SaaS multi-tenant)
+- post-quantum-hybrid cryptographic integrity and suite agility
 
 ### Acceptance criteria
 - Functional coverage map links each feature to tests and dashboards.
@@ -80,6 +81,7 @@ Mandatory evidence:
 - benchmark report
 - resilience/fault-injection report
 - completeness score artifact
+- post-quantum crypto conformance report
 
 ### Acceptance criteria
 - Evidence artifacts have stable schemas and version tags.

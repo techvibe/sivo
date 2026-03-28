@@ -174,7 +174,7 @@ properties:
         description: { type: string }
         verification_type:
           type: string
-          enum: [unit, integration, conformance, benchmark, policy]
+          enum: [unit, integration, conformance, benchmark, policy, resilience]
   observability:
     type: object
     additionalProperties: false

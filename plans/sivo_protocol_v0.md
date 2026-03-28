@@ -57,6 +57,7 @@ Sivo protocol defines an AI-native SCM substrate for code, chat, voice, and othe
 - Actor identity is explicit (human, agent, orchestration service).
 - Policy decisions and approval events are linked to session seal.
 - Replay must verify tamper-evidence before reconstructing state.
+- Production-oriented deployments SHOULD prefer post-quantum-hybrid signature profiles and include suite identifiers in signed artifacts for long-term verifiability.
 
 ## Git compatibility requirement
 

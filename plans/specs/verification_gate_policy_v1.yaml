@@ -15,6 +15,7 @@ pipeline_stages:
       - dualmode_conformance
       - policy_enforcement
       - tenancy_isolation_conformance
+      - post_quantum_crypto_conformance
       - prompt_injection_resilience
       - steering_conflict_detection
       - redteam_corpus_pass
@@ -38,6 +39,7 @@ pipeline_stages:
       - execution_budget_enforcement
       - uncertainty_threshold_enforcement
       - circuit_breaker_drill
+      - crypto_agility_rotation_drill
       - canary_rollout_safety_check
       - breakglass_governance_check
   - id: stage_5_release_decision
@@ -65,3 +67,4 @@ required_artifacts:
   - differential_safety_report
   - canary_rollout_report
   - breakglass_audit_report
+  - post_quantum_crypto_report

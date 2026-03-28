@@ -1,0 +1,14 @@
+version: "1.0.0"
+commands:
+  start:
+    description: Start implementation from the first critical unblocked foundation task.
+    prompt_file: plans/specs/prompts/start.prompt.md
+    state_action: set_foundation_start
+  resume:
+    description: Continue from current handoff state.
+    prompt_file: plans/specs/prompts/resume.prompt.md
+    state_action: keep_current
+  restart:
+    description: Reset state to initial foundation position and begin again.
+    prompt_file: plans/specs/prompts/restart.prompt.md
+    state_action: reset_to_foundation

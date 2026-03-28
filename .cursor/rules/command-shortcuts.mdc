@@ -1,0 +1,16 @@
+---
+description: Interpret start resume restart shortcuts
+alwaysApply: true
+---
+
+# Command Shortcuts
+
+If the user message is exactly one of these commands, treat it as a shortcut:
+
+- `start` -> use prompt from `plans/specs/prompts/start.prompt.md`
+- `resume` -> use prompt from `plans/specs/prompts/resume.prompt.md`
+- `restart` -> use prompt from `plans/specs/prompts/restart.prompt.md`
+
+For `restart`, require explicit confirmation before applying state reset behavior.
+
+Always keep `plans/specs/cursor_resume_state.yaml` in sync with progress milestones and verification gate status.

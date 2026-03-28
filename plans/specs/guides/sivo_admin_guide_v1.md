@@ -18,6 +18,7 @@ Platform administrators responsible for policy, RBAC, integrations, and tenant g
 - Use staged rollout: dry-run -> pilot -> broad rollout.
 - Version all guardrail profiles.
 - Require signed approvals for strictness reductions.
+- Configure and test post-quantum-hybrid crypto profile (`post_quantum_crypto_profile_v1.yaml`) before protected-environment go-live.
 
 ## Policy operations
 

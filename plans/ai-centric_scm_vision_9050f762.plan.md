@@ -1,6 +1,6 @@
 ---
 name: AI-centric SCM vision (Sivo integrated)
-overview: Open-source, developer-first SCM positioned as a credible Git alternative for AI-accelerated SDLC, with Sivo as the integrated protocol and product vocabulary; mandatory interoperability (push/pull) to GitHub, GitLab, and Bitbucket; native multi-agent coordination, MCP-native interface, layered immutability, Sigstore/SLSA-aligned attestations, policy gates, and critical end-to-end flows for the next 2-3+ years.
+overview: Open-source, developer-first SCM positioned as a credible Git alternative for AI-accelerated SDLC, with Sivo as the integrated protocol and product vocabulary; mandatory interoperability (push/pull) to GitHub, GitLab, and Bitbucket; native multi-agent coordination, MCP-native interface, layered immutability, post-quantum-hybrid-ready Sigstore/SLSA-aligned attestations, policy gates, and critical end-to-end flows for the next 2-3+ years.
 todos:
   - id: clarify-buyer-constraints
     content: Confirm primary buyer (dev vs enterprise) and Git round-trip requirement for any follow-on spec or MVP.
@@ -319,7 +319,7 @@ sequenceDiagram
 
 ### Flow 5 --- Audit and regulatory export
 
-- Export a **single verifiable archive**: event log slice + Sigstore signatures + linked Git SHAs + CI attestations + model/tool identifiers + policy decisions.
+- Export a **single verifiable archive**: event log slice + hybrid classical/PQ signatures + linked Git SHAs + CI attestations + model/tool identifiers + policy decisions.
 - **Replay** reconstructs workspace state, policy context, and the exact agent session --- not just `git checkout`.
 - Satisfies EU AI Act requirements: prompt/model logging, human review records, reasoning trails.
 
@@ -328,7 +328,7 @@ sequenceDiagram
 ## 7. Security and governance primitives
 
 - **Immutable event log**: append-only, Merkle-linked segments. No silent rewrites. Compaction via new epochs.
-- **Signing**: Sigstore/cosign keyless bundles (OIDC identity) for session seals, merge approvals, and policy overrides.
+- **Signing**: Sigstore/cosign keyless bundles (OIDC identity) with hybrid classical + post-quantum signature profiles for session seals, merge approvals, and policy overrides.
 - **Separation of duties**: human approval is a distinct signed event type; agent identity keys cannot mint approval attestations.
 - **Entity-level claims**: prevent concurrent modification conflicts at the semantic level, not just file locks.
 - **Scanner integration**: secret detection, license scanning, and SAST results are **signed attestation inputs** to merge policy --- not optional hooks.

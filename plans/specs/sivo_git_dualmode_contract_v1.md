@@ -24,6 +24,7 @@ Projection requirements:
 - Same sealed session produces identical projected commit graph.
 - Mapping spec includes field-level handling for messages, trailers, refs, and sidecars.
 - Projection outputs pass golden snapshot tests.
+- Projection metadata preserves cryptographic suite identifiers and signature verification outcomes for mixed-era compatibility.
 
 ## SIVO-DUAL-003 Import and reconcile
 

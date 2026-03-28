@@ -173,6 +173,122 @@ tasks:
     progress: 0
     confidence: 0.0
 
+  - task_id: SIVO-TASK-PQ_CRYPTO_FOUNDATION
+    title: Implement post-quantum-hybrid crypto policy and conformance gates
+    spec_section_ids: [SIVO-PQ-001, SIVO-PQ-003, SIVO-PQ-005, SIVO-PQ-007]
+    objective: Add crypto-agile hybrid signature/transport profiles and enforce PQ conformance across release gates.
+    intent_contract:
+      problem_statement: Classical-only cryptographic assumptions can break long-term integrity and compliance expectations.
+      desired_outcome: Sivo artifacts and transport paths are protected by approved hybrid classical+PQ crypto profiles.
+      non_goals: [Immediate removal of classical components before ecosystem readiness]
+      success_signals: [Release-class seals require hybrid signatures and PQ conformance reports pass]
+      constraints: [Deterministic replay and Git interoperability must remain stable]
+    bdd_scenarios:
+      - id: bdd-pq-hybrid-seal-policy
+        given: [A release-class seal request in protected environment]
+        when: [Signature policy evaluation runs]
+        then: [Seal is allowed only if required hybrid components verify]
+    adr_requirements:
+      required: true
+      adr_scope: [crypto-agility, hybrid-signature-policy]
+      evidence_classes: [conformance, resilience]
+    empirical_validation_plan:
+      datasets_or_fixtures: [pq-signature-fixtures-v1, crypto-rotation-fixtures-v1]
+      success_thresholds: [hybrid-policy-violations-equals-zero, rotation-drill-pass-rate-equals-1]
+      confidence_reporting: true
+    usability_criteria:
+      primary_personas: [security_owner, org_admin]
+      key_journeys: [configure-pq-profile-and-verify-release-gate]
+      max_critical_journey_fail_rate: 0.02
+    scope:
+      paths: [plans/specs/sivo_post_quantum_crypto_v1.md, plans/specs/post_quantum_crypto_profile_v1.yaml, plans/specs/verification_gate_policy_v1.yaml]
+      services: [policy-engine, attestation-service, release-gate-service]
+    policy_envelope:
+      allowed_operations: [read, write_spec_docs, run_conformance_tests]
+      prohibited_operations: [disable-required-hybrid-profile]
+      required_approvals: [security_owner, release_owner]
+      required_checks: [post_quantum_crypto_conformance, crypto_agility_rotation_drill]
+    acceptance_tests:
+      - id: pq-hybrid-release-enforcement
+        description: Release-class seals are blocked when required hybrid signature profile is not met.
+        verification_type: conformance
+      - id: pq-rotation-drill
+        description: Crypto-suite rotation drill preserves verification continuity and replay.
+        verification_type: resilience
+    observability:
+      metrics: [pq_hybrid_coverage_ratio, crypto_downgrade_event_count]
+      events: [policy_verdict_recorded, conformance_result_recorded]
+    rollback_strategy:
+      type: hybrid
+      trigger_conditions: [crypto_policy_regression, suite_rotation_failure]
+    dependencies: [SIVO-TASK-VERIFY_FOUNDATION, SIVO-TASK-PROT_V1_BASE]
+    owner: security-engineering
+    status: planned
+    priority:
+      level: critical
+      score: 94
+      rationale: Post-quantum-hybrid readiness is required for long-term integrity and enterprise trust.
+    progress: 0
+    confidence: 0.0
+
+  - task_id: SIVO-TASK-LANGUAGE_RUNTIME_FOUNDATION
+    title: Implement Rust-core runtime and polyglot API/SDK baseline
+    spec_section_ids: [SIVO-LANG-001, SIVO-LANG-002, SIVO-LANG-004, SIVO-LANG-005]
+    objective: Establish Rust as primary implementation language with secure, enterprise-ready polyglot access.
+    intent_contract:
+      problem_statement: Without a clear runtime strategy, performance, safety, and ecosystem adoption can fragment.
+      desired_outcome: Rust-core architecture with ubiquitous SDK/API access and enterprise-standard identity integration.
+      non_goals: [Requiring every client to be written in Rust]
+      success_signals: [Rust core services operational, SDK baselines and secure identity integrations defined]
+      constraints: [Must preserve protocol compatibility and deterministic behavior]
+    bdd_scenarios:
+      - id: bdd-rust-core-polyglot-access
+        given: [Core services are implemented in Rust with stable API contracts]
+        when: [Clients from multiple language SDKs call core workflows]
+        then: [Behavior and security controls remain consistent across clients]
+    adr_requirements:
+      required: true
+      adr_scope: [language-decision, api-binding-strategy]
+      evidence_classes: [conformance, benchmark, usability]
+    empirical_validation_plan:
+      datasets_or_fixtures: [sdk-parity-fixtures-v1, identity-integration-fixtures-v1]
+      success_thresholds: [sdk-parity-mismatch-rate-lte-0.01, auth-integration-critical-failures-equals-zero]
+      confidence_reporting: true
+    usability_criteria:
+      primary_personas: [developer, enterprise_admin]
+      key_journeys: [connect-enterprise-idp-and-run-sdk-client]
+      max_critical_journey_fail_rate: 0.02
+    scope:
+      paths: [plans/specs/sivo_language_and_runtime_strategy_v1.md, plans/specs/sivo_cli_api_surface_v1.md, plans/specs/sivo_enterprise_controls_v1.md]
+      services: [core-runtime, api-gateway, identity-integration]
+    policy_envelope:
+      allowed_operations: [read, write_spec_docs, run_conformance_tests]
+      prohibited_operations: [introduce-nonstandard-auth-paths]
+      required_approvals: [architecture_owner, security_owner]
+      required_checks: [sdk-parity-check, identity-interop-check, secure-transport-check]
+    acceptance_tests:
+      - id: runtime-rust-core-conformance
+        description: Core protocol/storage/seal components run with Rust baseline conformance.
+        verification_type: conformance
+      - id: sdk-enterprise-auth-interop
+        description: SDK clients authenticate via enterprise-standard identity providers and complete core workflows.
+        verification_type: integration
+    observability:
+      metrics: [sdk_parity_pass_rate, enterprise_auth_success_rate]
+      events: [acceptance_result_recorded, conformance_result_recorded]
+    rollback_strategy:
+      type: hybrid
+      trigger_conditions: [sdk-parity-regression, identity-integration-failure]
+    dependencies: [SIVO-TASK-VERIFY_FOUNDATION]
+    owner: architecture-platform
+    status: planned
+    priority:
+      level: critical
+      score: 91
+      rationale: Language and runtime decisions determine long-term performance, security, and adoption success.
+    progress: 0
+    confidence: 0.0
+
   - task_id: SIVO-TASK-VERIFY_FOUNDATION
     title: Implement verification gate orchestration foundation
     spec_section_ids: [SIVO-VER-001, SIVO-VER-005, SIVO-AGENT-008]

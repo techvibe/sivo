@@ -40,6 +40,7 @@ Define the minimum contract that allows Sivo to act as a Git replacement path wh
 - If semantic projection fails, fallback to file-level deterministic projection.
 - If signing infrastructure is unavailable, block release-class seals but allow local draft sessions with clear status.
 - Projection failures must produce machine-readable diagnostics for agent remediation.
+- If required post-quantum-hybrid signature components are unavailable for protected environments, release-class seals must be blocked.
 
 ## Test and conformance
 

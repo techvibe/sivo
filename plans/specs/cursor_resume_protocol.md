@@ -9,6 +9,7 @@ Ensure any Cursor session on any cloned machine can continue from the last known
 - Runtime handoff state: `cursor_resume_state.yaml`
 - Execution backlog: `spec_task.backlog.yaml`
 - Safety and verification gates: `verification_gate_policy_v1.yaml`, `execution_safety_profile_v1.yaml`
+- Command mapping: `cursor_prompt_commands.yaml` and `prompts/*.prompt.md`
 
 ## Resume algorithm
 
@@ -34,3 +35,13 @@ Update `cursor_resume_state.yaml` at:
 - `next_task_candidates` sorted by dependency + priority
 - `gate_status` current
 - `blockers` and `latest_artifacts` populated
+
+## Shortcut command usage
+
+You can use either:
+- Cursor chat shortcuts: `start`, `resume`, `restart`
+- Terminal wrappers: `scripts/start`, `scripts/resume`, `scripts/restart`
+
+Optional:
+- `--copy` copies the mapped prompt to clipboard when supported.
+- `scripts/restart --apply-restart` resets `cursor_resume_state.yaml` to foundation defaults.

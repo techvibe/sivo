@@ -16,8 +16,11 @@ This folder is the working project space for Sivo strategy, protocol, and delive
 - `specs/sivo_production_quality_and_usability_v1.md` - Production-grade quality gates and customer usability acceptance contract.
 - `specs/sivo_deployment_and_tenancy_models_v1.md` - Self-hosted and SaaS deployment/tenancy guarantees for enterprise.
 - `specs/sivo_architecture_decision_and_evidence_v1.md` - Architecture decision records linked to empirical test evidence.
+- `specs/sivo_post_quantum_crypto_v1.md` - Post-quantum-hybrid cryptography and crypto-agility requirements.
+- `specs/sivo_language_and_runtime_strategy_v1.md` - Rust-first core implementation with polyglot bindings and enterprise identity/connectivity posture.
 - `specs/cursor_resume_state.yaml` - Repository-native Cursor handoff state for cross-machine resume.
 - `specs/cursor_bootstrap_prompt.md` - Portable prompt to resume execution from the last known state.
+- `specs/cursor_prompt_commands.yaml` - `start|resume|restart` command-to-prompt mapping.
 
 ## Suggested workflow
 
@@ -25,9 +28,10 @@ This folder is the working project space for Sivo strategy, protocol, and delive
 2. Author and evolve implementation-ready specs under `specs/` with stable section IDs and acceptance criteria.
 3. Use `specs/spec_task.schema.yaml` and `specs/spec_task.backlog.yaml` as machine-readable agent execution inputs.
 4. Use `.cursor/rules/resume-and-handoff.mdc` + `specs/cursor_resume_state.yaml` to continue from the previous session on any machine.
-5. Run `scripts/verify_cursor_resume.sh` before publishing/handing off.
-6. Update protocol or compatibility docs in small, additive revisions.
-7. Run the stewardship loop in `sivo_customer_agent.md` weekly.
+5. Use `scripts/start`, `scripts/resume`, or `scripts/restart` (optional `--copy`) to fetch the mapped prompt without memorizing it.
+6. Run `scripts/verify_cursor_resume.sh` before publishing/handing off.
+7. Update protocol or compatibility docs in small, additive revisions.
+8. Run the stewardship loop in `sivo_customer_agent.md` weekly.
 
 ## Legacy reference kept
 

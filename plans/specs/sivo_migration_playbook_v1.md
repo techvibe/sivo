@@ -43,6 +43,7 @@ Inputs:
 - import and lineage validation
 - dual-mode sync enablement
 - policy and attestation activation
+- post-quantum-hybrid crypto profile activation and verification
 - benchmark baseline capture
 - user/agent workflow cutover
 

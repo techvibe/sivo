@@ -70,6 +70,7 @@ Storage MUST support monorepo scale and partition-tolerant local work.
 - Event sequence numbers are monotonic per stream.
 - Hash chain continuity cannot be skipped.
 - Projection mapping references must resolve to immutable event/state IDs.
+- Attestation artifacts include cryptographic suite IDs and remain verifiable across approved suite rotations.
 
 ### Acceptance criteria
 - Invariants are validated by automated storage conformance tests.

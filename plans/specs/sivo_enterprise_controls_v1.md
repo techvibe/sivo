@@ -49,6 +49,7 @@ Canonical roles:
 - Immutable audit logs are exportable with signature verification.
 - Legal hold blocks retention-based deletion.
 - Retention and residency policies are tenant-configurable and enforceable.
+- Cryptographic controls support post-quantum-hybrid verification profiles for protected environments.
 
 ## SIVO-ENT-006 Integration adapters
 
@@ -79,3 +80,10 @@ Enterprise deployments MUST support customer-managed installs and managed SaaS.
 - Customer-managed deployment guidance exists for private and public cloud.
 - SaaS deployment model enforces tenant isolation similar to large hosted VCS platforms.
 - Mode parity matrix defines which controls are guaranteed in each mode.
+
+## SIVO-ENT-009 Post-quantum crypto enterprise controls
+
+### Acceptance criteria
+- Tenant and org policy can require hybrid PQ signatures for release-class seals and attestations.
+- KMS/HSM integration supports configured PQ-hybrid key lifecycle controls or equivalent protections.
+- Crypto-suite downgrade events are treated as high-severity security incidents.

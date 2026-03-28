@@ -58,6 +58,7 @@
 - At least one `scope.modalities` value must be present.
 - `compatibility_target.git_profile` is mandatory for any workflow that projects to Git.
 - `evolution_policy.fallback_required` must be true for production sessions.
+- Production workflows SHOULD declare required cryptographic profile class in `constraints.policy` (for example: post-quantum-hybrid required).
 
 ## Evolution policy
 

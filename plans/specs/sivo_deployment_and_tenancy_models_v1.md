@@ -49,6 +49,7 @@ Required guarantees:
 - Standard integrations for identity, SIEM, and CI/CD are available in both modes.
 - Compliance and residency controls are configurable per tenant.
 - Performance SLOs are published for self-hosted and SaaS profiles.
+- Post-quantum-hybrid cryptographic profiles are supported in both self-hosted and SaaS modes.
 
 ## SIVO-DEPLOY-006 Mode migration and coexistence
 

@@ -1,0 +1,19 @@
+name: Spec Guardrails
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  verify-spec-guardrails:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Verify Cursor resume mechanism
+        run: scripts/verify_cursor_resume.sh
+
+      - name: Verify post-quantum coverage
+        run: scripts/verify_pq_coverage.sh

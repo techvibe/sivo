@@ -12,6 +12,7 @@ Sivo MUST act as the primary AI-native SCM substrate while maintaining permanent
 - System architecture clearly identifies a Sivo source-of-truth plane and a Git compatibility plane.
 - All core product workflows (plan, change, verify, promote) execute without requiring users to invoke Git primitives directly.
 - Git projection remains available for all sealed sessions.
+- Language/runtime strategy follows `sivo_language_and_runtime_strategy_v1.md` with Rust core and polyglot API access.
 
 ## SIVO-ARCH-002 Control and data planes
 

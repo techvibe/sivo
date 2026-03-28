@@ -25,6 +25,8 @@ This directory contains the executable product specification for Sivo as an AI-n
 - `sivo_architecture_decision_and_evidence_v1.md`
 - `sivo_exception_and_outlier_guardrails_v1.md`
 - `sivo_redteam_diff_canary_and_breakglass_v1.md`
+- `sivo_post_quantum_crypto_v1.md`
+- `sivo_language_and_runtime_strategy_v1.md`
 
 ## Global acceptance rule
 
@@ -46,9 +48,12 @@ Every spec section has:
 - Red-team corpus policy: `redteam_corpus_policy_v1.yaml`
 - Differential safety matrix: `differential_safety_matrix_v1.yaml`
 - Canary and break-glass policy: `canary_and_breakglass_policy_v1.yaml`
+- Post-quantum crypto profile: `post_quantum_crypto_profile_v1.yaml`
 - Cursor resume state: `cursor_resume_state.yaml`
 - Cursor resume protocol: `cursor_resume_protocol.md`
 - Cursor bootstrap prompt: `cursor_bootstrap_prompt.md`
+- Cursor command mapping: `cursor_prompt_commands.yaml`
+- Command prompts: `prompts/start.prompt.md`, `prompts/resume.prompt.md`, `prompts/restart.prompt.md`
 
 ## Guides
 
@@ -61,3 +66,6 @@ Every spec section has:
 ## Verification utility
 
 - `scripts/verify_cursor_resume.sh` validates resume mechanism integrity and next-task resolution.
+- `scripts/cursor_prompt.sh` maps `start|resume|restart` to the right prompt.
+- `scripts/start`, `scripts/resume`, `scripts/restart` are shortcut wrappers.
+- `scripts/verify_pq_coverage.sh` fails when required PQ controls are missing from specs and gates.

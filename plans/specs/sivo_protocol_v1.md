@@ -88,6 +88,8 @@ Every `seal` MUST include:
 - Signature verification is mandatory during replay.
 - Unsupported signature suites are rejected with actionable errors.
 - Key rotation and revocation states are respected in verification.
+- Production seal/attestation signatures support post-quantum-hybrid profiles per `post_quantum_crypto_profile_v1.yaml`.
+- Signed artifacts include cryptographic suite IDs for long-term verification.
 
 ## SIVO-PROT-007 MCP and interoperability
 

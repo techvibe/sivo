@@ -38,6 +38,7 @@ Evidence categories:
 - benchmark and scale outcomes
 - reliability/fault-injection outcomes
 - usability journey outcomes
+- post-quantum cryptography conformance and rotation drill outcomes
 
 ### Acceptance criteria
 - Evidence includes environment metadata and confidence intervals where applicable.
