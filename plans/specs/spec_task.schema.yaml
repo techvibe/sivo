@@ -1,0 +1,232 @@
+$schema: "https://json-schema.org/draft/2020-12/schema"
+title: SivoSpecTask
+type: object
+additionalProperties: false
+required:
+  - task_id
+  - title
+  - spec_section_ids
+  - objective
+  - intent_contract
+  - bdd_scenarios
+  - adr_requirements
+  - empirical_validation_plan
+  - usability_criteria
+  - scope
+  - policy_envelope
+  - acceptance_tests
+  - observability
+  - rollback_strategy
+  - dependencies
+  - owner
+  - status
+  - priority
+properties:
+  task_id:
+    type: string
+    pattern: "^SIVO-TASK-[A-Z0-9_-]+$"
+  title:
+    type: string
+    minLength: 5
+  spec_section_ids:
+    type: array
+    minItems: 1
+    items:
+      type: string
+      pattern: "^SIVO-[A-Z]+-[0-9]{3}$"
+  objective:
+    type: string
+    minLength: 10
+  intent_contract:
+    type: object
+    additionalProperties: false
+    required: [problem_statement, desired_outcome, non_goals, success_signals, constraints]
+    properties:
+      problem_statement:
+        type: string
+        minLength: 10
+      desired_outcome:
+        type: string
+        minLength: 10
+      non_goals:
+        type: array
+        minItems: 1
+        items: { type: string }
+      success_signals:
+        type: array
+        minItems: 1
+        items: { type: string }
+      constraints:
+        type: array
+        minItems: 1
+        items: { type: string }
+  bdd_scenarios:
+    type: array
+    minItems: 1
+    items:
+      type: object
+      additionalProperties: false
+      required: [id, given, when, then]
+      properties:
+        id: { type: string }
+        given:
+          type: array
+          minItems: 1
+          items: { type: string }
+        when:
+          type: array
+          minItems: 1
+          items: { type: string }
+        then:
+          type: array
+          minItems: 1
+          items: { type: string }
+  adr_requirements:
+    type: object
+    additionalProperties: false
+    required: [required, adr_scope, evidence_classes]
+    properties:
+      required:
+        type: boolean
+      adr_scope:
+        type: array
+        minItems: 1
+        items: { type: string }
+      evidence_classes:
+        type: array
+        minItems: 1
+        items:
+          type: string
+          enum: [conformance, e2e, benchmark, resilience, usability]
+  empirical_validation_plan:
+    type: object
+    additionalProperties: false
+    required: [datasets_or_fixtures, success_thresholds, confidence_reporting]
+    properties:
+      datasets_or_fixtures:
+        type: array
+        minItems: 1
+        items: { type: string }
+      success_thresholds:
+        type: array
+        minItems: 1
+        items: { type: string }
+      confidence_reporting:
+        type: boolean
+  usability_criteria:
+    type: object
+    additionalProperties: false
+    required: [primary_personas, key_journeys, max_critical_journey_fail_rate]
+    properties:
+      primary_personas:
+        type: array
+        minItems: 1
+        items: { type: string }
+      key_journeys:
+        type: array
+        minItems: 1
+        items: { type: string }
+      max_critical_journey_fail_rate:
+        type: number
+        minimum: 0
+        maximum: 1
+  scope:
+    type: object
+    additionalProperties: false
+    required: [paths, services]
+    properties:
+      paths:
+        type: array
+        minItems: 1
+        items: { type: string }
+      services:
+        type: array
+        minItems: 1
+        items: { type: string }
+  policy_envelope:
+    type: object
+    additionalProperties: false
+    required: [allowed_operations, prohibited_operations, required_approvals, required_checks]
+    properties:
+      allowed_operations:
+        type: array
+        minItems: 1
+        items: { type: string }
+      prohibited_operations:
+        type: array
+        items: { type: string }
+      required_approvals:
+        type: array
+        items: { type: string }
+      required_checks:
+        type: array
+        minItems: 1
+        items: { type: string }
+  acceptance_tests:
+    type: array
+    minItems: 1
+    items:
+      type: object
+      additionalProperties: false
+      required: [id, description, verification_type]
+      properties:
+        id: { type: string }
+        description: { type: string }
+        verification_type:
+          type: string
+          enum: [unit, integration, conformance, benchmark, policy]
+  observability:
+    type: object
+    additionalProperties: false
+    required: [metrics, events]
+    properties:
+      metrics:
+        type: array
+        minItems: 1
+        items: { type: string }
+      events:
+        type: array
+        minItems: 1
+        items: { type: string }
+  rollback_strategy:
+    type: object
+    additionalProperties: false
+    required: [type, trigger_conditions]
+    properties:
+      type:
+        type: string
+        enum: [automatic, manual, hybrid]
+      trigger_conditions:
+        type: array
+        minItems: 1
+        items: { type: string }
+  dependencies:
+    type: array
+    items: { type: string }
+  owner:
+    type: string
+  status:
+    type: string
+    enum: [planned, in_progress, blocked, completed, cancelled]
+  priority:
+    type: object
+    additionalProperties: false
+    required: [level, score]
+    properties:
+      level:
+        type: string
+        enum: [critical, high, medium, low]
+      score:
+        type: number
+        minimum: 0
+        maximum: 100
+      rationale:
+        type: string
+  progress:
+    type: number
+    minimum: 0
+    maximum: 100
+  confidence:
+    type: number
+    minimum: 0
+    maximum: 1

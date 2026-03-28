@@ -1,0 +1,26 @@
+version: "1.0.0"
+canary_stages:
+  - id: stage_1_internal
+    traffic_percent: 1
+  - id: stage_2_pilot_tenants
+    traffic_percent: 5
+  - id: stage_3_broad
+    traffic_percent: 25
+  - id: stage_4_general
+    traffic_percent: 100
+halt_conditions:
+  - guardrail_breach_rate_increase_gt: 0.005
+  - critical_journey_fail_rate_increase_gt: 0.01
+  - uncertainty_breach_rate_increase_gt: 0.01
+rollback_conditions:
+  - any_critical_safety_incident: true
+breakglass:
+  allowed: true
+  required_approvals:
+    - release_owner
+    - security_owner
+  max_duration_hours: 24
+  mandatory_post_incident_review: true
+artifact_requirements:
+  - canary_rollout_report
+  - breakglass_audit_report

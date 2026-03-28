@@ -1,0 +1,36 @@
+version: "1.0.0"
+name: sivo_completeness_score
+range: [0.0, 1.0]
+weights:
+  spec_section_implementation: 0.25
+  acceptance_test_pass_ratio: 0.20
+  conformance_coverage: 0.20
+  benchmark_gate_status: 0.20
+  docs_and_guides_coverage: 0.10
+  unresolved_blockers_penalty: 0.05
+computation:
+  spec_section_implementation:
+    formula: implemented_sections / total_critical_sections
+  acceptance_test_pass_ratio:
+    formula: passed_acceptance_tests / total_acceptance_tests
+  conformance_coverage:
+    formula: passing_conformance_checks / total_conformance_checks
+  benchmark_gate_status:
+    formula: passing_benchmark_gates / total_benchmark_gates
+  docs_and_guides_coverage:
+    formula: published_doc_modules / required_doc_modules
+  unresolved_blockers_penalty:
+    formula: min(open_blocker_severity_score / blocker_normalization_factor, 1.0)
+final_formula: |
+  raw = (
+    weights.spec_section_implementation * spec_section_implementation +
+    weights.acceptance_test_pass_ratio * acceptance_test_pass_ratio +
+    weights.conformance_coverage * conformance_coverage +
+    weights.benchmark_gate_status * benchmark_gate_status +
+    weights.docs_and_guides_coverage * docs_and_guides_coverage
+  )
+  penalty = weights.unresolved_blockers_penalty * unresolved_blockers_penalty
+  score = max(min(raw - penalty, 1.0), 0.0)
+determinism_requirements:
+  - same_inputs_same_score
+  - no_manual_override_without_audit_event

@@ -1,0 +1,53 @@
+$schema: "https://json-schema.org/draft/2020-12/schema"
+title: SivoArchitectureDecisionRecord
+type: object
+additionalProperties: false
+required:
+  - adr_id
+  - status
+  - decision_context
+  - options_considered
+  - decision
+  - tradeoffs
+  - evidence_refs
+  - spec_section_ids
+  - task_ids
+properties:
+  adr_id:
+    type: string
+    pattern: "^SIVO-ADR-[A-Z0-9_-]+$"
+  status:
+    type: string
+    enum: [proposed, accepted, superseded, rejected]
+  decision_context:
+    type: string
+    minLength: 10
+  options_considered:
+    type: array
+    minItems: 1
+    items: { type: string }
+  decision:
+    type: string
+    minLength: 10
+  tradeoffs:
+    type: array
+    minItems: 1
+    items: { type: string }
+  evidence_refs:
+    type: array
+    minItems: 1
+    items: { type: string }
+  rollback_or_supersession_plan:
+    type: string
+  spec_section_ids:
+    type: array
+    minItems: 1
+    items:
+      type: string
+      pattern: "^SIVO-[A-Z]+-[0-9]{3}$"
+  task_ids:
+    type: array
+    minItems: 1
+    items:
+      type: string
+      pattern: "^SIVO-TASK-[A-Z0-9_-]+$"

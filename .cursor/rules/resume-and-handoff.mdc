@@ -1,0 +1,20 @@
+---
+description: Resume work from repository handoff state
+alwaysApply: true
+---
+
+# Resume and Handoff
+
+- On session start, read `plans/specs/cursor_resume_state.yaml`.
+- If a task is `in_progress`, continue that task first.
+- If no task is in progress, read `plans/specs/spec_task.backlog.yaml` and pick the highest-priority unblocked `planned` task.
+- Before edits, confirm intent and BDD fields exist for the chosen task.
+- During work, keep evidence references and gate status current in `cursor_resume_state.yaml`.
+- On session end, update:
+  - `last_update_utc`
+  - `current_task_id`
+  - `current_phase`
+  - `next_task_candidates`
+  - `blockers`
+  - `latest_artifacts`
+- Never mark a task complete without required verification artifacts.

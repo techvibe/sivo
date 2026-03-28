@@ -1,0 +1,580 @@
+tasks:
+  - task_id: SIVO-TASK-INTENT_BDD_FOUNDATION
+    title: Enforce intent-driven and BDD execution framework
+    spec_section_ids: [SIVO-INTENT-001, SIVO-INTENT-004, SIVO-AGENT-009]
+    objective: Make intent contracts and BDD scenarios mandatory and enforced for all autonomous tasks.
+    intent_contract:
+      problem_statement: Autonomous work can drift from user intent without explicit behavior contracts.
+      desired_outcome: Every task execution is bounded by intent and verified by BDD evidence.
+      non_goals: [Allowing execution with missing intent or scenario coverage]
+      success_signals: [All tasks validate against intent and BDD schema preflight]
+      constraints: [Must remain compatible with verify-first gate policy and dashboard telemetry]
+    bdd_scenarios:
+      - id: bdd-intent-required-preflight
+        given: [A task without intent contract or BDD scenarios]
+        when: [Execution preflight runs]
+        then: [Task is blocked with deterministic validation errors]
+    adr_requirements:
+      required: true
+      adr_scope: [execution-governance, task-contract]
+      evidence_classes: [conformance, e2e]
+    empirical_validation_plan:
+      datasets_or_fixtures: [task-schema-fixtures-v1, preflight-bypass-fixtures-v1]
+      success_thresholds: [zero-preflight-bypass, schema-validation-pass-rate-equals-1]
+      confidence_reporting: true
+    usability_criteria:
+      primary_personas: [agent_operator, developer]
+      key_journeys: [submit-task-and-pass-preflight]
+      max_critical_journey_fail_rate: 0.02
+    scope:
+      paths: [plans/specs/sivo_intent_bdd_execution_contract_v1.md, plans/specs/spec_task.schema.yaml]
+      services: [orchestrator-service, validation-service, dashboard-service]
+    policy_envelope:
+      allowed_operations: [read, write_spec_docs, run_schema_validation]
+      prohibited_operations: [bypass_policy]
+      required_approvals: [architecture_owner, release_owner]
+      required_checks: [intent_schema_check, bdd_schema_check, preflight_enforcement_test]
+    acceptance_tests:
+      - id: intent-bdd-schema-enforced
+        description: Task schema requires intent and BDD fields for execution.
+        verification_type: conformance
+      - id: intent-bdd-dashboard-visibility
+        description: Intent and BDD coverage metrics are published to dashboard.
+        verification_type: integration
+    observability:
+      metrics: [intent_contract_coverage, bdd_coverage_ratio]
+      events: [task_status_changed, conformance_result_recorded]
+    rollback_strategy:
+      type: hybrid
+      trigger_conditions: [schema_regression, preflight_bypass_detected]
+    dependencies: []
+    owner: architecture-governance
+    status: planned
+    priority:
+      level: critical
+      score: 97
+      rationale: Intent and behavior guardrails are the root safety layer for autonomous execution.
+    progress: 0
+    confidence: 0.0
+
+  - task_id: SIVO-TASK-OUTLIER_SAFETY_FOUNDATION
+    title: Implement exception and outlier safety controls
+    spec_section_ids: [SIVO-SAFE-001, SIVO-SAFE-003, SIVO-SAFE-004, SIVO-AGENT-010]
+    objective: Enforce fail-closed outlier handling, circuit breakers, uncertainty budgets, and fallback modes.
+    intent_contract:
+      problem_statement: Edge-case failures and adversarial prompts can force autonomous execution outside safe bounds.
+      desired_outcome: Outlier scenarios are detected early and execution remains in strict guardrails.
+      non_goals: [Allowing silent continuation after critical anomalies]
+      success_signals: [Critical anomalies trigger breaker activation and safe fallback deterministically]
+      constraints: [Must be auditable, tenant-configurable, and verification-gated]
+    bdd_scenarios:
+      - id: bdd-critical-anomaly-fail-closed
+        given: [A critical anomaly signal is detected during mutation]
+        when: [Safety controller evaluates the event]
+        then: [Execution pauses, safe mode is enabled, and escalation is emitted]
+    adr_requirements:
+      required: true
+      adr_scope: [safety-profile, breaker-strategy]
+      evidence_classes: [conformance, resilience, usability]
+    empirical_validation_plan:
+      datasets_or_fixtures: [outlier-fault-fixtures-v1, prompt-injection-fixtures-v1]
+      success_thresholds: [critical-anomaly-escape-rate-equals-zero, breaker-drill-pass-rate-equals-1]
+      confidence_reporting: true
+    usability_criteria:
+      primary_personas: [security_owner, release_owner, agent_operator]
+      key_journeys: [triage-guardrail-breach-and-reset-breaker]
+      max_critical_journey_fail_rate: 0.02
+    scope:
+      paths: [plans/specs/sivo_exception_and_outlier_guardrails_v1.md, plans/specs/execution_safety_profile_v1.yaml]
+      services: [safety-controller, orchestrator-service, dashboard-service]
+    policy_envelope:
+      allowed_operations: [read, write_spec_docs, run_fault_injection]
+      prohibited_operations: [bypass_policy, auto-reset-breaker-without-approval]
+      required_approvals: [security_owner, release_owner]
+      required_checks: [outlier-safety-conformance, breaker-drill, uncertainty-gate-tests]
+    acceptance_tests:
+      - id: safety-fail-closed
+        description: Critical anomalies force fail-closed behavior and stop mutation.
+        verification_type: conformance
+      - id: safety-fallback-mode-e2e
+        description: Fallback mode transitions preserve lineage and allow safe recovery.
+        verification_type: integration
+    observability:
+      metrics: [guardrail_breach_rate, circuit_breaker_activation_rate, uncertainty_breach_count]
+      events: [guardrail_breach_detected, circuit_breaker_activated, fallback_mode_changed]
+    rollback_strategy:
+      type: hybrid
+      trigger_conditions: [safety-policy-regression, breaker-reset-policy-violation]
+    dependencies: [SIVO-TASK-INTENT_BDD_FOUNDATION]
+    owner: safety-engineering
+    status: planned
+    priority:
+      level: critical
+      score: 98
+      rationale: Outlier safety controls are required to prevent guardrail escape in autonomous runs.
+    progress: 0
+    confidence: 0.0
+
+  - task_id: SIVO-TASK-ADV_HARDENING_FOUNDATION
+    title: Implement red-team, differential safety, canary, and break-glass governance
+    spec_section_ids: [SIVO-HARDEN-001, SIVO-HARDEN-003, SIVO-HARDEN-004, SIVO-HARDEN-005, SIVO-AGENT-011]
+    objective: Enforce adversarial validation and safe rollout governance for safety-sensitive changes.
+    intent_contract:
+      problem_statement: Outlier-safe runtime still risks unsafe rollout without adversarial and rollout governance controls.
+      desired_outcome: Safety-sensitive changes are blocked unless red-team, differential, and canary controls pass.
+      non_goals: [Fast-tracking safety-sensitive releases without evidence]
+      success_signals: [Red-team and differential gates pass; canary regressions trigger automatic rollback]
+      constraints: [Must produce signed evidence and break-glass audit trails]
+    bdd_scenarios:
+      - id: bdd-adversarial-gate-block
+        given: [A safety-sensitive release candidate with failed red-team cases]
+        when: [Release gate evaluation runs]
+        then: [Release is blocked and remediation tasks are created]
+    adr_requirements:
+      required: true
+      adr_scope: [adversarial-governance, rollout-governance]
+      evidence_classes: [conformance, resilience, benchmark]
+    empirical_validation_plan:
+      datasets_or_fixtures: [redteam-corpus-v1, differential-safety-fixtures-v1, canary-simulation-fixtures-v1]
+      success_thresholds: [critical-redteam-failures-equals-zero, differential-mismatch-rate-lte-0.01]
+      confidence_reporting: true
+    usability_criteria:
+      primary_personas: [security_owner, release_owner, tenant_admin]
+      key_journeys: [approve-canary-or-trigger-rollback, audit-breakglass-use]
+      max_critical_journey_fail_rate: 0.02
+    scope:
+      paths: [plans/specs/sivo_redteam_diff_canary_and_breakglass_v1.md, plans/specs/redteam_corpus_policy_v1.yaml, plans/specs/differential_safety_matrix_v1.yaml, plans/specs/canary_and_breakglass_policy_v1.yaml]
+      services: [safety-controller, release-gate-service, dashboard-service]
+    policy_envelope:
+      allowed_operations: [read, write_spec_docs, run_adversarial_tests, run_canary_simulations]
+      prohibited_operations: [bypass_release_gate, delete_breakglass_audit]
+      required_approvals: [security_owner, release_owner]
+      required_checks: [redteam_suite, differential_equivalence_suite, canary_governance_suite]
+    acceptance_tests:
+      - id: hardening-redteam-gate
+        description: Red-team failures on critical cases block release.
+        verification_type: conformance
+      - id: hardening-canary-breakglass-governance
+        description: Canary rollback and break-glass governance behave per policy and are auditable.
+        verification_type: integration
+    observability:
+      metrics: [redteam_pass_rate, differential_mismatch_rate, canary_regression_rate, breakglass_invocation_count]
+      events: [conformance_result_recorded, task_status_changed, benchmark_result_recorded]
+    rollback_strategy:
+      type: hybrid
+      trigger_conditions: [adversarial-regression, canary-safety-regression]
+    dependencies: [SIVO-TASK-OUTLIER_SAFETY_FOUNDATION]
+    owner: safety-engineering
+    status: planned
+    priority:
+      level: critical
+      score: 96
+      rationale: Advanced hardening prevents guardrail bypass during high-risk rollout conditions.
+    progress: 0
+    confidence: 0.0
+
+  - task_id: SIVO-TASK-VERIFY_FOUNDATION
+    title: Implement verification gate orchestration foundation
+    spec_section_ids: [SIVO-VER-001, SIVO-VER-005, SIVO-AGENT-008]
+    objective: Enforce verify-first staged execution guarantees across autonomous agent pipelines.
+    intent_contract:
+      problem_statement: Autonomous delivery can bypass critical checks without strict gate orchestration.
+      desired_outcome: Every build path is blocked unless verify-first stage gates pass.
+      non_goals: [Allowing manual bypasses without signed waivers]
+      success_signals: [Stage order always enforced, releases blocked on critical check failure]
+      constraints: [Must integrate with CI gate service, must emit auditable evidence]
+    bdd_scenarios:
+      - id: bdd-verify-stage-order
+        given: [A pipeline with configured stage gates]
+        when: [A later stage is attempted before prior critical stage passes]
+        then: [Pipeline blocks execution and records a conformance failure]
+    adr_requirements:
+      required: true
+      adr_scope: [release-orchestration, gate-policy]
+      evidence_classes: [conformance, resilience]
+    empirical_validation_plan:
+      datasets_or_fixtures: [gate-order-fixtures-v1, waiver-policy-fixtures-v1]
+      success_thresholds: [no-stage-skip, evidence-bundle-complete-rate-equals-1]
+      confidence_reporting: true
+    usability_criteria:
+      primary_personas: [release_owner, security_owner]
+      key_journeys: [diagnose-blocked-release]
+      max_critical_journey_fail_rate: 0.02
+    scope:
+      paths: [plans/specs/sivo_verification_and_execution_guarantees_v1.md, plans/specs/verification_gate_policy_v1.yaml]
+      services: [orchestrator-service, ci-gate-service]
+    policy_envelope:
+      allowed_operations: [read, write_spec_docs, run_gate_validation]
+      prohibited_operations: [delete_history, bypass_policy]
+      required_approvals: [release_owner, security_owner]
+      required_checks: [gate_policy_lint, stage_order_conformance]
+    acceptance_tests:
+      - id: verify-stage-order
+        description: Pipeline cannot skip required earlier stages.
+        verification_type: conformance
+      - id: verify-evidence-bundle
+        description: Completion requires full signed evidence bundle.
+        verification_type: conformance
+    observability:
+      metrics: [verification_gate_pass_rate, release_blocker_count]
+      events: [task_status_changed, conformance_result_recorded]
+    rollback_strategy:
+      type: hybrid
+      trigger_conditions: [gate_enforcement_failure, evidence_chain_break]
+    dependencies: [SIVO-TASK-INTENT_BDD_FOUNDATION, SIVO-TASK-OUTLIER_SAFETY_FOUNDATION, SIVO-TASK-ADV_HARDENING_FOUNDATION]
+    owner: release-engineering
+    status: planned
+    priority:
+      level: critical
+      score: 95
+      rationale: Verify-first execution guarantees are prerequisite to safe autonomous build.
+    progress: 0
+    confidence: 0.0
+
+  - task_id: SIVO-TASK-PROT_V1_BASE
+    title: Publish protocol v1 schemas and invariants
+    spec_section_ids: [SIVO-PROT-002, SIVO-PROT-003, SIVO-PROT-004, SIVO-PROT-005]
+    objective: Implement protocol object schemas, operation contracts, and deterministic invariants.
+    intent_contract:
+      problem_statement: Protocol inconsistency breaks determinism and multi-agent correctness.
+      desired_outcome: Protocol schemas and operations execute deterministically across providers.
+      non_goals: [Provider-specific correctness semantics]
+      success_signals: [Golden fixtures pass, replay determinism is stable]
+      constraints: [Backward-compatible additive evolution only]
+    bdd_scenarios:
+      - id: bdd-protocol-determinism
+        given: [A canonical event stream and fixed policy version]
+        when: [Protocol replay is executed twice]
+        then: [Terminal state and projection identifiers are identical]
+    adr_requirements:
+      required: true
+      adr_scope: [protocol-objects, state-machine]
+      evidence_classes: [conformance, benchmark]
+    empirical_validation_plan:
+      datasets_or_fixtures: [protocol-golden-fixtures-v1]
+      success_thresholds: [determinism-mismatch-equals-zero]
+      confidence_reporting: true
+    usability_criteria:
+      primary_personas: [developer, automation_service]
+      key_journeys: [create-session-apply-delta-seal]
+      max_critical_journey_fail_rate: 0.02
+    scope:
+      paths: [plans/specs/sivo_protocol_v1.md]
+      services: [protocol-service, mcp-adapter]
+    policy_envelope:
+      allowed_operations: [read, write_spec_docs, run_schema_validation]
+      prohibited_operations: [delete_history, bypass_policy]
+      required_approvals: [protocol_owner]
+      required_checks: [schema_lint, conformance_dry_run]
+    acceptance_tests:
+      - id: prot-v1-schema
+        description: Object schemas validate canonical fixtures.
+        verification_type: conformance
+      - id: prot-v1-determinism
+        description: Replay determinism test passes on golden fixtures.
+        verification_type: conformance
+    observability:
+      metrics: [spec_coverage_protocol, conformance_pass_rate]
+      events: [task_status_changed, acceptance_result_recorded]
+    rollback_strategy:
+      type: hybrid
+      trigger_conditions: [conformance_failure, schema_breaking_change]
+    dependencies: [SIVO-TASK-VERIFY_FOUNDATION]
+    owner: core-protocol
+    status: planned
+    priority:
+      level: critical
+      score: 92
+      rationale: Protocol determinism and schema correctness are foundational for all downstream services.
+    progress: 0
+    confidence: 0.0
+
+  - task_id: SIVO-TASK-DUALMODE_RC
+    title: Implement dual-mode reconcile and drift gates
+    spec_section_ids: [SIVO-DUAL-003, SIVO-DUAL-004, SIVO-DUAL-007]
+    objective: Build reconcile and drift detection semantics with release-blocking gate integration.
+    intent_contract:
+      problem_statement: Dual-mode drift can silently compromise trust and migration safety.
+      desired_outcome: Drift is detected, classified, and blocked when severity requires.
+      non_goals: [Silent auto-healing without audit trail]
+      success_signals: [Blocking drift halts promotion, round-trip fixtures remain stable]
+      constraints: [Must support cross-host compatibility matrix]
+    bdd_scenarios:
+      - id: bdd-dualmode-drift-block
+        given: [Dual-write mode is enabled and drift is detected]
+        when: [Drift severity is classified as blocking]
+        then: [Promotion is denied and remediation diagnostics are emitted]
+    adr_requirements:
+      required: true
+      adr_scope: [dualmode-reconcile, drift-classification]
+      evidence_classes: [conformance, e2e, resilience]
+    empirical_validation_plan:
+      datasets_or_fixtures: [cross-host-roundtrip-fixtures-v1, drift-injection-fixtures-v1]
+      success_thresholds: [blocking-drift-prevents-promotion, roundtrip-pass-rate-gte-0.99]
+      confidence_reporting: true
+    usability_criteria:
+      primary_personas: [repo_admin, release_owner]
+      key_journeys: [triage-drift-and-remediate]
+      max_critical_journey_fail_rate: 0.03
+    scope:
+      paths: [plans/specs/sivo_git_dualmode_contract_v1.md]
+      services: [projection-service, drift-service, dashboard-service]
+    policy_envelope:
+      allowed_operations: [read, write_spec_docs, run_conformance_tests]
+      prohibited_operations: [force_release]
+      required_approvals: [interop_owner, release_owner]
+      required_checks: [cross_host_matrix, roundtrip_suite]
+    acceptance_tests:
+      - id: dualmode-drift-block
+        description: Blocking drift stops promotion operations.
+        verification_type: conformance
+      - id: dualmode-roundtrip
+        description: Strict and graceful profiles pass fixture matrix.
+        verification_type: integration
+    observability:
+      metrics: [dualmode_drift_rate, compatibility_pass_rate]
+      events: [task_status_changed, conformance_result_recorded]
+    rollback_strategy:
+      type: automatic
+      trigger_conditions: [projection_nondeterminism, cross_host_failure]
+    dependencies: [SIVO-TASK-PROT_V1_BASE]
+    owner: interop-core
+    status: planned
+    priority:
+      level: critical
+      score: 90
+      rationale: Dual-mode compatibility is required for safe coexistence and migration.
+    progress: 0
+    confidence: 0.0
+
+  - task_id: SIVO-TASK-BACKLOG_CORE
+    title: Implement native backlog state manager
+    spec_section_ids: [SIVO-BACKLOG-001, SIVO-BACKLOG-002, SIVO-BACKLOG-004, SIVO-ARCH-008]
+    objective: Deliver first-class backlog entities, dependency DAG, and autonomous execution linkage.
+    intent_contract:
+      problem_statement: External backlog tools fragment execution context from SCM lineage.
+      desired_outcome: Sivo becomes authoritative backlog state store with execution traceability.
+      non_goals: [Removing optional coexistence adapters during transition]
+      success_signals: [Backlog entities link to sessions, DAG integrity validated]
+      constraints: [Must preserve deterministic state transitions and RBAC]
+    bdd_scenarios:
+      - id: bdd-backlog-to-seal
+        given: [An initiative with tasks and dependencies in Sivo]
+        when: [A task execution run completes with acceptance evidence]
+        then: [Backlog state updates and links to sealed session provenance]
+    adr_requirements:
+      required: true
+      adr_scope: [backlog-data-model, dependency-dag]
+      evidence_classes: [e2e, usability]
+    empirical_validation_plan:
+      datasets_or_fixtures: [backlog-dag-fixtures-v1, workflow-lifecycle-fixtures-v1]
+      success_thresholds: [dependency-cycle-rate-equals-zero, task-linkage-completeness-equals-1]
+      confidence_reporting: true
+    usability_criteria:
+      primary_personas: [product_owner, developer, reviewer]
+      key_journeys: [create-prioritize-execute-close-task]
+      max_critical_journey_fail_rate: 0.03
+    scope:
+      paths: [plans/specs/sivo_backlog_state_manager_v1.md, plans/specs/spec_task.schema.yaml]
+      services: [backlog-service, planning-service, dashboard-service]
+    policy_envelope:
+      allowed_operations: [read, write_spec_docs, run_integration_tests]
+      prohibited_operations: [bypass_policy, delete_audit_events]
+      required_approvals: [product_owner, architecture_owner]
+      required_checks: [backlog_schema_tests, dependency_dag_tests, e2e_planning_tests]
+    acceptance_tests:
+      - id: backlog-e2e-flow
+        description: Initiative to task to execution run links to sealed session and evidence.
+        verification_type: integration
+      - id: backlog-authoritative-mode
+        description: Sivo backlog can run as authoritative source with optional external sync.
+        verification_type: conformance
+    observability:
+      metrics: [backlog_cycle_time, backlog_blocked_dependency_count]
+      events: [task_status_changed, migration_state_changed]
+    rollback_strategy:
+      type: hybrid
+      trigger_conditions: [data_integrity_failure, dependency_cycle_regression]
+    dependencies: [SIVO-TASK-VERIFY_FOUNDATION, SIVO-TASK-PROT_V1_BASE]
+    owner: planning-platform
+    status: planned
+    priority:
+      level: high
+      score: 84
+      rationale: Native backlog management unlocks Jira-class replacement and autonomous planning loops.
+    progress: 0
+    confidence: 0.0
+
+  - task_id: SIVO-TASK-LEARNING_CONTROL
+    title: Implement learning and adaptation with guardrail boundaries
+    spec_section_ids: [SIVO-LEARN-001, SIVO-LEARN-003, SIVO-LEARN-004, SIVO-MEM-004]
+    objective: Add tenant-scoped learning loops that improve efficiency without compromising deterministic guardrails.
+    intent_contract:
+      problem_statement: Learning systems can unintentionally weaken deterministic guardrails.
+      desired_outcome: Learning improves efficiency while policy decisions remain deterministic and enforceable.
+      non_goals: [Direct model-driven policy bypass]
+      success_signals: [Recommendation quality improves, no guardrail boundary violations]
+      constraints: [Tenant isolation, signed config changes, shadow-mode before rollout]
+    bdd_scenarios:
+      - id: bdd-learning-boundary
+        given: [A learning recommendation proposes workflow optimization]
+        when: [Policy evaluation is executed for activation]
+        then: [Recommendation is applied only if policy allows and is fully auditable]
+    adr_requirements:
+      required: true
+      adr_scope: [learning-boundary, recommendation-rollout]
+      evidence_classes: [policy, benchmark, usability]
+    empirical_validation_plan:
+      datasets_or_fixtures: [shadow-eval-fixtures-v1, tenant-isolation-fixtures-v1]
+      success_thresholds: [policy-boundary-violation-rate-equals-zero, recommendation-regression-rate-lte-0.05]
+      confidence_reporting: true
+    usability_criteria:
+      primary_personas: [org_admin, agent_operator]
+      key_journeys: [configure-learning-profile-and-review-recommendations]
+      max_critical_journey_fail_rate: 0.03
+    scope:
+      paths: [plans/specs/sivo_learning_and_adaptation_v1.md, plans/specs/sivo_ai_memory_and_guardrails_v1.md]
+      services: [learning-orchestrator, memory-service, policy-engine]
+    policy_envelope:
+      allowed_operations: [read, write_spec_docs, run_shadow_eval_tests]
+      prohibited_operations: [direct_guardrail_override]
+      required_approvals: [security_owner, ml_owner]
+      required_checks: [shadow_mode_eval, policy_boundary_tests]
+    acceptance_tests:
+      - id: learning-recommendation-boundary
+        description: Recommendations cannot bypass policy or mutate sealed history directly.
+        verification_type: policy
+      - id: tenant-learning-isolation
+        description: Learning signals and recommendations remain tenant-isolated.
+        verification_type: integration
+    observability:
+      metrics: [recommendation_accept_rate, recommendation_rollback_rate]
+      events: [policy_verdict_recorded, acceptance_result_recorded]
+    rollback_strategy:
+      type: automatic
+      trigger_conditions: [policy_boundary_violation, recommendation_regression]
+    dependencies: [SIVO-TASK-VERIFY_FOUNDATION, SIVO-TASK-PROT_V1_BASE]
+    owner: intelligence-platform
+    status: planned
+    priority:
+      level: high
+      score: 82
+      rationale: Learning improves efficiency and adaptation while retaining deterministic policy boundaries.
+    progress: 0
+    confidence: 0.0
+
+  - task_id: SIVO-TASK-GUIDES_DOCS
+    title: Publish user, admin, and operator guides with verifiable workflows
+    spec_section_ids: [SIVO-DASH-003, SIVO-VER-004, SIVO-API-004]
+    objective: Provide complete user-facing and operational docs aligned to executable workflows and verification gates.
+    intent_contract:
+      problem_statement: Missing or weak docs reduce operator confidence and execution reliability.
+      desired_outcome: Guides fully cover critical workflows, controls, and failure handling.
+      non_goals: [Publishing docs without workflow validation]
+      success_signals: [Docs coverage integrated into completeness score]
+      constraints: [Must track versioned workflow references]
+    bdd_scenarios:
+      - id: bdd-docs-critical-path
+        given: [A release candidate with updated workflows]
+        when: [Docs coverage validation runs]
+        then: [Critical workflow documentation is complete and verified]
+    adr_requirements:
+      required: true
+      adr_scope: [documentation-governance]
+      evidence_classes: [conformance, usability]
+    empirical_validation_plan:
+      datasets_or_fixtures: [docs-workflow-fixtures-v1]
+      success_thresholds: [critical-workflow-doc-coverage-equals-1]
+      confidence_reporting: true
+    usability_criteria:
+      primary_personas: [developer, org_admin, operator]
+      key_journeys: [find-runbook-and-resolve-failure]
+      max_critical_journey_fail_rate: 0.03
+    scope:
+      paths: [plans/specs/guides/sivo_user_guide_v1.md, plans/specs/guides/sivo_admin_guide_v1.md, plans/specs/guides/sivo_operator_runbook_v1.md]
+      services: [docs-platform, dashboard-service]
+    policy_envelope:
+      allowed_operations: [read, write_spec_docs, run_docs_lint]
+      prohibited_operations: [publish_without_review]
+      required_approvals: [docs_owner, operations_owner]
+      required_checks: [workflow_accuracy_review, docs_coverage_check]
+    acceptance_tests:
+      - id: docs-coverage-critical-path
+        description: Guides cover critical end-to-end workflows and failure handling.
+        verification_type: conformance
+      - id: docs-completeness-score-integration
+        description: Docs coverage contributes to completeness computation.
+        verification_type: integration
+    observability:
+      metrics: [docs_coverage_score, docs_drift_count]
+      events: [acceptance_result_recorded, task_status_changed]
+    rollback_strategy:
+      type: manual
+      trigger_conditions: [incorrect_workflow_docs]
+    dependencies: [SIVO-TASK-VERIFY_FOUNDATION]
+    owner: docs-and-dx
+    status: planned
+    priority:
+      level: high
+      score: 80
+      rationale: Complete guides are required for operational adoption and completeness verification.
+    progress: 0
+    confidence: 0.0
+
+  - task_id: SIVO-TASK-PERF_GATES
+    title: Enforce benchmark and scale release gates
+    spec_section_ids: [SIVO-PERF-001, SIVO-PERF-003, SIVO-PERF-005]
+    objective: Operationalize benchmark suite and release blocks for 3-10x performance targets.
+    intent_contract:
+      problem_statement: Performance claims are unreliable without enforceable benchmark gates.
+      desired_outcome: Releases are blocked unless benchmark thresholds and stability criteria pass.
+      non_goals: [Allowing unverified performance claims in release notes]
+      success_signals: [Track multipliers meet thresholds, flakiness remains bounded]
+      constraints: [Must run on fixed fixtures and publish raw artifacts]
+    bdd_scenarios:
+      - id: bdd-benchmark-release-block
+        given: [A release candidate benchmark run reports threshold failure]
+        when: [Release readiness decision is evaluated]
+        then: [Release is blocked until remediation or signed waiver]
+    adr_requirements:
+      required: true
+      adr_scope: [benchmark-formula, release-gates]
+      evidence_classes: [benchmark, resilience]
+    empirical_validation_plan:
+      datasets_or_fixtures: [perf-track-a-fixtures-v1, perf-track-b-fixtures-v1]
+      success_thresholds: [track-multiplier-gte-3, flakiness-lte-0.02]
+      confidence_reporting: true
+    usability_criteria:
+      primary_personas: [performance_owner, release_owner]
+      key_journeys: [inspect-regression-and-decide-release]
+      max_critical_journey_fail_rate: 0.02
+    scope:
+      paths: [plans/specs/sivo_perf_benchmark_suite_v1.md, plans/specs/benchmark_suite_v1.yaml, plans/specs/benchmark_gate_policy_v1.yaml]
+      services: [benchmark-harness, release-gate-service, dashboard-service]
+    policy_envelope:
+      allowed_operations: [read, write_spec_docs, run_benchmarks]
+      prohibited_operations: [force_release]
+      required_approvals: [performance_owner, release_owner]
+      required_checks: [benchmark_track_a, benchmark_track_b, flakiness_guard]
+    acceptance_tests:
+      - id: benchmark-gate-block
+        description: Release is blocked when any hard threshold is violated.
+        verification_type: benchmark
+      - id: benchmark-report-integrity
+        description: Benchmark reports include raw artifacts and confidence intervals.
+        verification_type: conformance
+    observability:
+      metrics: [track_a_multiplier, track_b_multiplier, benchmark_flakiness]
+      events: [benchmark_result_recorded, task_status_changed]
+    rollback_strategy:
+      type: hybrid
+      trigger_conditions: [benchmark_regression, fixture_instability]
+    dependencies: [SIVO-TASK-VERIFY_FOUNDATION, SIVO-TASK-PROT_V1_BASE, SIVO-TASK-DUALMODE_RC]
+    owner: performance-engineering
+    status: planned
+    priority:
+      level: critical
+      score: 93
+      rationale: Performance gates enforce the core 3-10x product promise.
+    progress: 0
+    confidence: 0.0

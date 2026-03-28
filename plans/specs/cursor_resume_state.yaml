@@ -1,0 +1,23 @@
+version: "1.0.0"
+project: sivo
+last_update_utc: "2026-03-28T00:00:00Z"
+current_phase: "foundation_hardening"
+current_task_id: "SIVO-TASK-INTENT_BDD_FOUNDATION"
+current_task_status: "planned"
+last_completed_tasks: []
+next_task_candidates:
+  - "SIVO-TASK-INTENT_BDD_FOUNDATION"
+  - "SIVO-TASK-OUTLIER_SAFETY_FOUNDATION"
+  - "SIVO-TASK-ADV_HARDENING_FOUNDATION"
+  - "SIVO-TASK-VERIFY_FOUNDATION"
+gate_status:
+  stage_1_spec_integrity: "not_started"
+  stage_2_conformance_security: "not_started"
+  stage_3_e2e_workflows: "not_started"
+  stage_4_performance_resilience: "not_started"
+  stage_5_release_decision: "not_started"
+blockers: []
+latest_artifacts: []
+notes:
+  - "Resume from foundation tasks in strict dependency order."
+  - "Fail closed on anomaly or uncertainty breaches."

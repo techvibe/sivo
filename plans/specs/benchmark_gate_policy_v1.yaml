@@ -1,0 +1,37 @@
+version: "1.0.0"
+release_gates:
+  min_composite_score_multiplier:
+    track_a_git_equivalent: 3.0
+    track_b_ai_native: 3.0
+  target_band_multiplier:
+    track_b_ai_native:
+      min: 5.0
+      max: 10.0
+  max_allowed_p95_regression_percent: 15
+  max_allowed_flakiness_percent: 2
+blocking_conditions:
+  - id: gate_track_a_multiplier
+    condition: track_a_git_equivalent.composite_score_multiplier < 3.0
+    severity: blocking
+  - id: gate_track_b_multiplier
+    condition: track_b_ai_native.composite_score_multiplier < 3.0
+    severity: blocking
+  - id: gate_p95_regression
+    condition: p95_regression_percent > 15
+    severity: blocking
+  - id: gate_flakiness
+    condition: benchmark_flakiness_percent > 2
+    severity: blocking
+waiver_policy:
+  allowed: true
+  approvers:
+    - release_owner
+    - performance_owner
+  requires_signed_justification: true
+  max_waiver_days: 14
+audit:
+  emit_events:
+    - benchmark_result_recorded
+    - release_blocked
+    - waiver_granted
+    - waiver_expired

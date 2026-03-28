@@ -1,0 +1,44 @@
+version: "1.0.0"
+default_mode: fail_closed
+fallback_modes:
+  - observe_only
+  - human_approval_only
+  - read_only_safe_mode
+thresholds:
+  max_runtime_minutes_per_task: 90
+  max_token_cost_usd_per_task: 25
+  max_mutation_files_per_task: 30
+  max_parallel_agents_per_task: 5
+  max_uncertainty_score: 0.35
+anomaly_triggers:
+  - policy_bypass_attempt
+  - prompt_injection_signal
+  - intent_contradiction_detected
+  - out_of_scope_mutation_detected
+  - unexpected_tool_usage_detected
+  - dependency_deadlock_detected
+actions:
+  on_critical_anomaly:
+    - pause_execution
+    - enable_read_only_safe_mode
+    - notify_security_owner
+    - require_root_cause_record
+  on_uncertainty_breach:
+    - pause_mutation
+    - require_human_review
+  on_budget_breach:
+    - halt_task
+    - emit_budget_breach_report
+approval:
+  breaker_reset_roles:
+    - release_owner
+    - security_owner
+  requires_signed_justification: true
+observability:
+  required_events:
+    - guardrail_breach_detected
+    - circuit_breaker_activated
+    - circuit_breaker_reset
+    - fallback_mode_changed
+    - uncertainty_breach_detected
+    - budget_breach_detected

@@ -1,0 +1,84 @@
+# Canonical task envelope for autonomous agent execution.
+# Validate instances against spec_task.schema.yaml.
+task_id: SIVO-TASK-EXAMPLE
+title: Example task for Sivo autonomous execution
+spec_section_ids:
+  - SIVO-AGENT-002
+objective: Implement a scoped feature with deterministic policy and evidence.
+intent_contract:
+  problem_statement: Autonomous implementation can drift without explicit intent boundaries.
+  desired_outcome: Task execution remains aligned to explicit outcomes and constraints.
+  non_goals:
+    - Allowing unbounded scope expansion during execution
+  success_signals:
+    - Task outcomes match declared intent and acceptance evidence
+  constraints:
+    - Must pass policy preflight
+    - Must preserve deterministic replay semantics
+bdd_scenarios:
+  - id: bdd-example-intent-alignment
+    given:
+      - A task has a valid intent contract and policy envelope
+    when:
+      - The agent executes the task and runs acceptance checks
+    then:
+      - Completion evidence demonstrates intended outcomes without scope violation
+adr_requirements:
+  required: true
+  adr_scope:
+    - core-architecture
+  evidence_classes:
+    - conformance
+    - e2e
+empirical_validation_plan:
+  datasets_or_fixtures:
+    - canonical-fixture-set-v1
+  success_thresholds:
+    - all_required_checks_pass
+  confidence_reporting: true
+usability_criteria:
+  primary_personas:
+    - developer
+  key_journeys:
+    - create-session-to-seal
+  max_critical_journey_fail_rate: 0.02
+scope:
+  paths:
+    - plans/specs/
+  services:
+    - example-service
+policy_envelope:
+  allowed_operations:
+    - read
+    - write_spec_docs
+  prohibited_operations:
+    - bypass_policy
+  required_approvals:
+    - repo_admin
+  required_checks:
+    - schema_lint
+    - acceptance_tests
+acceptance_tests:
+  - id: example-test
+    description: Example conformance check passes.
+    verification_type: conformance
+observability:
+  metrics:
+    - task_progress
+    - acceptance_pass_rate
+  events:
+    - task_status_changed
+    - acceptance_result_recorded
+rollback_strategy:
+  type: hybrid
+  trigger_conditions:
+    - acceptance_failure
+dependencies: []
+owner: example-owner
+status: planned
+priority:
+  level: high
+  score: 75
+  rationale: Example priority for deterministic planning queue ordering.
+progress: 0
+confidence: 0.0

@@ -1,0 +1,56 @@
+version: "1.0.0"
+tracks:
+  - id: track_a_git_equivalent
+    description: Benchmark Git-equivalent operations against baseline Git workflows.
+    fixtures:
+      - id: repo_medium
+        profile: medium_monorepo
+      - id: repo_large
+        profile: large_monorepo
+    operations:
+      - clone
+      - sync
+      - status
+      - history
+      - merge
+    metrics:
+      - latency_p50_ms
+      - latency_p95_ms
+      - latency_p99_ms
+      - cpu_seconds
+      - memory_mb_peak
+      - io_mb
+  - id: track_b_ai_native
+    description: Benchmark AI-native workflows against baseline AI toolchain.
+    fixtures:
+      - id: ai_workflow_medium
+        profile: medium_repo_multi_agent
+      - id: ai_workflow_large
+        profile: large_repo_multi_agent
+    operations:
+      - context_retrieval
+      - multi_agent_plan_change
+      - semantic_conflict_resolution
+      - policy_provenance_verification
+    metrics:
+      - latency_p50_ms
+      - latency_p95_ms
+      - throughput_per_hour
+      - token_cost_usd
+      - model_invocations
+composite_score:
+  method: weighted_harmonic_mean
+  track_weights:
+    track_a_git_equivalent: 0.45
+    track_b_ai_native: 0.55
+  metric_weights:
+    latency_p95_ms: 0.35
+    throughput_per_hour: 0.25
+    cpu_seconds: 0.10
+    memory_mb_peak: 0.05
+    io_mb: 0.05
+    token_cost_usd: 0.20
+reporting:
+  include_raw_artifacts: true
+  include_env_metadata: true
+  include_confidence_intervals: true

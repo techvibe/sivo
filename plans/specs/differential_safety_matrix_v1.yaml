@@ -1,0 +1,15 @@
+version: "1.0.0"
+provider_families_required: 2
+comparison_dimensions:
+  - policy_verdict_equivalence
+  - prompt_injection_resilience_equivalence
+  - fallback_mode_trigger_equivalence
+  - uncertainty_gate_equivalence
+thresholds:
+  max_equivalence_mismatch_rate: 0.01
+  critical_path_mismatch_rate: 0.0
+failure_policy:
+  mismatch_above_threshold: blocking
+artifact_requirements:
+  - differential_safety_report
+  - mismatch_trace_bundle

@@ -1,0 +1,67 @@
+version: "1.0.0"
+pipeline_stages:
+  - id: stage_1_spec_integrity
+    required_checks:
+      - spec_section_traceability
+      - intent_contract_validation
+      - bdd_scenario_schema_validation
+      - adr_schema_validation
+      - schema_validation
+      - completeness_model_validation
+  - id: stage_2_conformance_security
+    required_checks:
+      - protocol_conformance
+      - storage_invariants
+      - dualmode_conformance
+      - policy_enforcement
+      - tenancy_isolation_conformance
+      - prompt_injection_resilience
+      - steering_conflict_detection
+      - redteam_corpus_pass
+      - differential_safety_equivalence
+  - id: stage_3_e2e_workflows
+    required_checks:
+      - scm_core_e2e
+      - migration_e2e
+      - backlog_manager_e2e
+      - dashboard_e2e
+      - bdd_scenario_execution_coverage
+      - customer_usability_journey_coverage
+      - fallback_mode_transition_e2e
+  - id: stage_4_performance_resilience
+    required_checks:
+      - benchmark_gates
+      - fault_injection
+      - backup_restore
+      - production_quality_slo_gates
+      - adr_evidence_freshness
+      - execution_budget_enforcement
+      - uncertainty_threshold_enforcement
+      - circuit_breaker_drill
+      - canary_rollout_safety_check
+      - breakglass_governance_check
+  - id: stage_5_release_decision
+    required_checks:
+      - blocker_scan
+      - waiver_validation
+      - evidence_bundle_complete
+blocking_policy:
+  fail_fast: true
+  cannot_skip_prior_stage: true
+waiver_policy:
+  approvers:
+    - release_owner
+    - security_owner
+  max_days: 14
+  requires_signed_justification: true
+required_artifacts:
+  - conformance_report
+  - policy_report
+  - benchmark_report
+  - resilience_report
+  - completeness_report
+  - outlier_safety_report
+  - redteam_report
+  - differential_safety_report
+  - canary_rollout_report
+  - breakglass_audit_report
