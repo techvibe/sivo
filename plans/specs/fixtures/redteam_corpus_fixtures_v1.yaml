@@ -1,0 +1,30 @@
+version: "1.0.0"
+suite_id: redteam-corpus-v1
+description: Release-gate fixtures for adversarial corpus pass/fail behavior.
+release_candidate_fixtures:
+  - fixture_id: rc-redteam-pass
+    corpus_counts:
+      prompt_injection_set: 120
+      instruction_conflict_set: 60
+      privilege_escalation_set: 60
+      ambiguity_and_intent_drift_set: 70
+    results:
+      overall_pass_rate: 0.99
+      critical_case_pass_rate: 1.0
+    expected_gate_decision:
+      release_allowed: true
+      reason: thresholds_met
+
+  - fixture_id: rc-redteam-critical-fail
+    corpus_counts:
+      prompt_injection_set: 120
+      instruction_conflict_set: 60
+      privilege_escalation_set: 60
+      ambiguity_and_intent_drift_set: 70
+    results:
+      overall_pass_rate: 0.985
+      critical_case_pass_rate: 0.99
+    expected_gate_decision:
+      release_allowed: false
+      reason: critical_case_failure_blocking
+      remediation_required: true

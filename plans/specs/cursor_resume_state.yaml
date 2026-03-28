@@ -1,13 +1,14 @@
 ---
 version: 1.0.0
 project: sivo
-last_update_utc: '2026-03-28T20:17:26Z'
+last_update_utc: '2026-03-28T20:21:54Z'
 current_phase: foundation_hardening
-current_task_id: SIVO-TASK-ADV_HARDENING_FOUNDATION
+current_task_id: SIVO-TASK-VERIFY_FOUNDATION
 current_task_status: in_progress
 last_completed_tasks:
 - SIVO-TASK-INTENT_BDD_FOUNDATION
 - SIVO-TASK-OUTLIER_SAFETY_FOUNDATION
+- SIVO-TASK-ADV_HARDENING_FOUNDATION
 next_task_candidates:
 - SIVO-TASK-INTENT_BDD_FOUNDATION
 - SIVO-TASK-OUTLIER_SAFETY_FOUNDATION
@@ -15,8 +16,8 @@ next_task_candidates:
 - SIVO-TASK-VERIFY_FOUNDATION
 gate_status:
   stage_1_spec_integrity: completed
-  stage_2_conformance_security: in_progress
-  stage_3_e2e_workflows: not_started
+  stage_2_conformance_security: completed
+  stage_3_e2e_workflows: in_progress
   stage_4_performance_resilience: not_started
   stage_5_release_decision: not_started
 blockers: []
@@ -38,10 +39,15 @@ latest_artifacts:
 - plans/specs/outlier_safety_foundation_milestone1_report.md
 - plans/specs/fixtures/breaker_and_fallback_drill_fixtures_v1.yaml
 - plans/specs/redteam_hardening_milestone1_report.md
+- plans/specs/fixtures/redteam_corpus_fixtures_v1.yaml
+- plans/specs/fixtures/differential_safety_fixtures_v1.yaml
+- plans/specs/fixtures/canary_governance_fixtures_v1.yaml
+- plans/specs/sivo_redteam_diff_canary_and_breakglass_v1.md
 notes:
 - Resume from foundation tasks in strict dependency order.
 - Fail closed on anomaly or uncertainty breaches.
 - SIVO-TASK-INTENT_BDD_FOUNDATION marked completed with fixture-backed preflight and dashboard visibility evidence.
 - SIVO-TASK-OUTLIER_SAFETY_FOUNDATION marked completed with fixture-backed fail-closed, uncertainty, and breaker drill evidence.
-- Execution advanced automatically to SIVO-TASK-ADV_HARDENING_FOUNDATION.
+- SIVO-TASK-ADV_HARDENING_FOUNDATION marked completed with fixture-backed red-team, differential, and canary governance evidence.
+- Execution advanced automatically to SIVO-TASK-VERIFY_FOUNDATION.
 - Outlier safety milestone 1 implemented: deterministic anomaly classification and fixture-backed fail-closed expectations are in place.

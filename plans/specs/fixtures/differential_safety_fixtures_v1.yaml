@@ -1,0 +1,28 @@
+version: "1.0.0"
+suite_id: differential-safety-fixtures-v1
+description: Cross-provider equivalence fixtures for safety-sensitive workflows.
+provider_pairs:
+  - pair_id: providerA_providerB
+    families: [family_a, family_b]
+    fixtures:
+      - fixture_id: diff-equivalent-pass
+        mismatch_rates:
+          policy_verdict_equivalence: 0.005
+          prompt_injection_resilience_equivalence: 0.004
+          fallback_mode_trigger_equivalence: 0.003
+          uncertainty_gate_equivalence: 0.002
+        critical_path_mismatch_rate: 0.0
+        expected_gate_decision:
+          release_allowed: true
+          reason: mismatch_within_threshold
+      - fixture_id: diff-critical-mismatch-block
+        mismatch_rates:
+          policy_verdict_equivalence: 0.02
+          prompt_injection_resilience_equivalence: 0.015
+          fallback_mode_trigger_equivalence: 0.012
+          uncertainty_gate_equivalence: 0.011
+        critical_path_mismatch_rate: 0.01
+        expected_gate_decision:
+          release_allowed: false
+          reason: mismatch_above_threshold_blocking
+          remediation_required: true

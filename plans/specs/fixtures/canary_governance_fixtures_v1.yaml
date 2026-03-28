@@ -1,0 +1,49 @@
+version: "1.0.0"
+suite_id: canary-governance-suite-v1
+description: Canary progression, rollback, and break-glass governance fixtures.
+scenarios:
+  - fixture_id: canary-safe-promotion
+    stage_metrics:
+      stage_1_internal:
+        guardrail_breach_rate_increase: 0.001
+        critical_journey_fail_rate_increase: 0.002
+        uncertainty_breach_rate_increase: 0.002
+      stage_2_pilot_tenants:
+        guardrail_breach_rate_increase: 0.002
+        critical_journey_fail_rate_increase: 0.003
+        uncertainty_breach_rate_increase: 0.003
+    breakglass_invoked: false
+    expected_gate_decision:
+      rollout_action: proceed
+      rollback_required: false
+
+  - fixture_id: canary-regression-rollback
+    stage_metrics:
+      stage_2_pilot_tenants:
+        guardrail_breach_rate_increase: 0.007
+        critical_journey_fail_rate_increase: 0.015
+        uncertainty_breach_rate_increase: 0.012
+    breakglass_invoked: false
+    expected_gate_decision:
+      rollout_action: halt_and_rollback
+      rollback_required: true
+      reason: halt_conditions_triggered
+
+  - fixture_id: breakglass-audited-emergency
+    stage_metrics:
+      stage_2_pilot_tenants:
+        guardrail_breach_rate_increase: 0.007
+        critical_journey_fail_rate_increase: 0.015
+        uncertainty_breach_rate_increase: 0.012
+    breakglass_invoked: true
+    approvals:
+      - role: release_owner
+        signed: true
+      - role: security_owner
+        signed: true
+    max_duration_hours: 12
+    post_incident_review_attached: true
+    expected_gate_decision:
+      rollout_action: temporary_breakglass_then_rollback
+      rollback_required: true
+      governance_compliant: true

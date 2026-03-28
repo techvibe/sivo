@@ -47,3 +47,13 @@ Continuously validate guardrails against adversarial behavior and prevent unsafe
 - Red-team, differential, canary, and break-glass results are exported as signed artifacts.
 - Dashboard shows trend lines and blocker status for each hardening dimension.
 - Evidence is queryable by release version, task ID, and tenant scope.
+
+## SIVO-HARDEN-007 Fixture-backed gate determinism
+
+Release-gate decisions for hardening controls MUST be validated with canonical fixtures to ensure deterministic pass/block outcomes.
+
+### Acceptance criteria
+- Red-team gate fixture suite is maintained in `fixtures/redteam_corpus_fixtures_v1.yaml`.
+- Differential safety gate fixture suite is maintained in `fixtures/differential_safety_fixtures_v1.yaml`.
+- Canary and break-glass governance fixture suite is maintained in `fixtures/canary_governance_fixtures_v1.yaml`.
+- Each fixture suite contains both pass and blocking scenarios with explicit expected gate decisions.

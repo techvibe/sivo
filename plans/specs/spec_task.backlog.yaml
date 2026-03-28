@@ -186,13 +186,13 @@ tasks:
       trigger_conditions: [adversarial-regression, canary-safety-regression]
     dependencies: [SIVO-TASK-OUTLIER_SAFETY_FOUNDATION]
     owner: safety-engineering
-    status: in_progress
+    status: completed
     priority:
       level: critical
       score: 96
       rationale: Advanced hardening prevents guardrail bypass during high-risk rollout conditions.
-    progress: 12
-    confidence: 0.56
+    progress: 100
+    confidence: 0.88
 
   - task_id: SIVO-TASK-PQ_CRYPTO_FOUNDATION
     title: Implement post-quantum-hybrid crypto policy and conformance gates
@@ -360,13 +360,13 @@ tasks:
       trigger_conditions: [gate_enforcement_failure, evidence_chain_break]
     dependencies: [SIVO-TASK-INTENT_BDD_FOUNDATION, SIVO-TASK-OUTLIER_SAFETY_FOUNDATION, SIVO-TASK-ADV_HARDENING_FOUNDATION]
     owner: release-engineering
-    status: planned
+    status: in_progress
     priority:
       level: critical
       score: 95
       rationale: Verify-first execution guarantees are prerequisite to safe autonomous build.
-    progress: 0
-    confidence: 0.0
+    progress: 10
+    confidence: 0.52
 
   - task_id: SIVO-TASK-PROT_V1_BASE
     title: Publish protocol v1 schemas and invariants
