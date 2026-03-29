@@ -280,6 +280,8 @@ tasks:
             artifact: plans/specs/sivo_language_and_runtime_strategy_v1.md
           - evidence_class: usability
             artifact: plans/specs/language_runtime_milestone1_report.md
+          - evidence_class: benchmark
+            artifact: plans/specs/fixtures/sdk_parity_fixtures_v1.yaml
         given: [Core services are implemented in Rust with stable API contracts]
         when: [Clients from multiple language SDKs call core workflows]
         then: [Behavior and security controls remain consistent across clients]
@@ -318,13 +320,13 @@ tasks:
       trigger_conditions: [sdk-parity-regression, identity-integration-failure]
     dependencies: [SIVO-TASK-VERIFY_FOUNDATION]
     owner: architecture-platform
-    status: in_progress
+    status: completed
     priority:
       level: critical
       score: 91
       rationale: Language and runtime decisions determine long-term performance, security, and adoption success.
-    progress: 12
-    confidence: 0.55
+    progress: 100
+    confidence: 0.86
 
   - task_id: SIVO-TASK-VERIFY_FOUNDATION
     title: Implement verification gate orchestration foundation
@@ -468,6 +470,15 @@ tasks:
       constraints: [Must support cross-host compatibility matrix]
     bdd_scenarios:
       - id: bdd-dualmode-drift-block
+        intent_refs: [problem_statement, desired_outcome, constraints]
+        spec_section_ids: [SIVO-DUAL-003, SIVO-DUAL-004, SIVO-DUAL-007]
+        acceptance_evidence:
+          - evidence_class: conformance
+            artifact: plans/specs/fixtures/drift_injection_fixtures_v1.yaml
+          - evidence_class: integration
+            artifact: plans/specs/fixtures/cross_host_roundtrip_fixtures_v1.yaml
+          - evidence_class: resilience
+            artifact: plans/specs/dualmode_rc_milestone1_report.md
         given: [Dual-write mode is enabled and drift is detected]
         when: [Drift severity is classified as blocking]
         then: [Promotion is denied and remediation diagnostics are emitted]
@@ -506,13 +517,13 @@ tasks:
       trigger_conditions: [projection_nondeterminism, cross_host_failure]
     dependencies: [SIVO-TASK-PROT_V1_BASE]
     owner: interop-core
-    status: planned
+    status: in_progress
     priority:
       level: critical
       score: 90
       rationale: Dual-mode compatibility is required for safe coexistence and migration.
-    progress: 0
-    confidence: 0.0
+    progress: 14
+    confidence: 0.56
 
   - task_id: SIVO-TASK-BACKLOG_CORE
     title: Implement native backlog state manager

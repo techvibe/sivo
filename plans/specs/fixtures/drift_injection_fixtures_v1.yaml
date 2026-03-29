@@ -1,0 +1,17 @@
+version: "1.0.0"
+suite_id: drift-injection-fixtures-v1
+description: Drift severity classification and release-blocking fixtures for dual-write mode.
+fixtures:
+  - fixture_id: blocking-drift-prevents-promotion
+    drift_classification: blocking
+    dual_write_enabled: true
+    expected:
+      promotion_allowed: false
+      reason: blocking_drift_detected
+
+  - fixture_id: warning-drift-allows-remediation-window
+    drift_classification: warning
+    dual_write_enabled: true
+    expected:
+      promotion_allowed: true
+      remediation_required: true

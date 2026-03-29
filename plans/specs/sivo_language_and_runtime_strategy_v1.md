@@ -60,3 +60,12 @@ All connectivity to Sivo must be secure by default and compatible with enterpris
 - OSS distribution provides reproducible Rust builds, verifiable artifacts, and SDK clients.
 - Enterprise distribution adds hardened deployment packs, compliance controls, and support SLAs.
 - SaaS and self-hosted editions share the same protocol and verification contracts.
+
+## SIVO-LANG-007 Fixture-backed parity and identity conformance
+
+Language/runtime parity and enterprise identity controls MUST be validated via canonical fixtures.
+
+### Acceptance criteria
+- SDK parity fixtures are maintained in `fixtures/sdk_parity_fixtures_v1.yaml`.
+- Enterprise identity integration fixtures are maintained in `fixtures/identity_integration_fixtures_v1.yaml`.
+- Each fixture suite includes passing and blocking scenarios with deterministic expected outcomes.

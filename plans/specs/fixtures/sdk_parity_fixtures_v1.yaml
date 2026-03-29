@@ -1,0 +1,19 @@
+version: "1.0.0"
+suite_id: sdk-parity-fixtures-v1
+description: Cross-SDK parity fixtures for core protocol workflows.
+fixtures:
+  - fixture_id: sdk-parity-pass
+    sdk_clients: [typescript, python, go, java, dotnet]
+    workflow: create-session-apply-delta-seal
+    observed_mismatch_rate: 0.0
+    expected:
+      conformance: pass
+      reason: parity_within_threshold
+
+  - fixture_id: sdk-parity-mismatch-block
+    sdk_clients: [typescript, python, go, java, dotnet]
+    workflow: create-session-apply-delta-seal
+    observed_mismatch_rate: 0.02
+    expected:
+      conformance: fail
+      reason: sdk_parity_mismatch_above_threshold

@@ -1,0 +1,20 @@
+version: "1.0.0"
+suite_id: cross-host-roundtrip-fixtures-v1
+description: Dual-mode cross-host roundtrip fixtures for strict and graceful profiles.
+fixtures:
+  - fixture_id: roundtrip-strict-pass
+    hosts: [github, gitlab, bitbucket, self_hosted]
+    profile: strict
+    observed_roundtrip_pass_rate: 1.0
+    expected:
+      conformance: pass
+      reason: strict_roundtrip_stable
+
+  - fixture_id: roundtrip-graceful-degrade-pass
+    hosts: [github, gitlab, bitbucket, self_hosted]
+    profile: graceful
+    observed_roundtrip_pass_rate: 0.995
+    downgrade_markers_present: true
+    expected:
+      conformance: pass
+      reason: graceful_profile_with_diagnostics

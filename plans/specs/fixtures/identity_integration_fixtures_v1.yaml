@@ -1,0 +1,19 @@
+version: "1.0.0"
+suite_id: identity-integration-fixtures-v1
+description: Enterprise identity integration fixtures for authn/authz interoperability.
+fixtures:
+  - fixture_id: enterprise-identity-pass
+    idp_modes: [oidc, saml, jwt_oauth2, mtls_service_identity]
+    scoped_authorization_enforced: true
+    critical_auth_failures: 0
+    expected:
+      interop: pass
+      reason: identity_controls_satisfied
+
+  - fixture_id: enterprise-identity-fail
+    idp_modes: [oidc, saml, jwt_oauth2, mtls_service_identity]
+    scoped_authorization_enforced: false
+    critical_auth_failures: 2
+    expected:
+      interop: fail
+      reason: identity_integration_critical_failures
