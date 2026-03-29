@@ -1,0 +1,19 @@
+version: "1.0.0"
+suite_id: perf-track-b-fixtures-v1
+description: AI-native benchmark track fixtures for release gate evaluation.
+fixtures:
+  - fixture_id: track-b-pass
+    weighted_composite_multiplier: 5.6
+    p95_regression_vs_stable: 0.08
+    flakiness_rate: 0.01
+    expected:
+      gate: pass
+      reason: target_band_achieved
+
+  - fixture_id: track-b-warning
+    weighted_composite_multiplier: 3.1
+    p95_regression_vs_stable: 0.12
+    flakiness_rate: 0.015
+    expected:
+      gate: pass_with_warning
+      reason: floor_met_not_target_band

@@ -1,0 +1,19 @@
+version: "1.0.0"
+suite_id: perf-track-a-fixtures-v1
+description: Git-equivalent benchmark track fixtures for release gate evaluation.
+fixtures:
+  - fixture_id: track-a-pass
+    weighted_composite_multiplier: 3.4
+    p95_regression_vs_stable: 0.04
+    flakiness_rate: 0.01
+    expected:
+      gate: pass
+      reason: threshold_met
+
+  - fixture_id: track-a-block
+    weighted_composite_multiplier: 2.7
+    p95_regression_vs_stable: 0.18
+    flakiness_rate: 0.03
+    expected:
+      gate: block
+      reason: composite_below_threshold

@@ -517,13 +517,13 @@ tasks:
       trigger_conditions: [projection_nondeterminism, cross_host_failure]
     dependencies: [SIVO-TASK-PROT_V1_BASE]
     owner: interop-core
-    status: in_progress
+    status: completed
     priority:
       level: critical
       score: 90
       rationale: Dual-mode compatibility is required for safe coexistence and migration.
-    progress: 14
-    confidence: 0.56
+    progress: 100
+    confidence: 0.86
 
   - task_id: SIVO-TASK-BACKLOG_CORE
     title: Implement native backlog state manager
@@ -711,6 +711,15 @@ tasks:
       constraints: [Must run on fixed fixtures and publish raw artifacts]
     bdd_scenarios:
       - id: bdd-benchmark-release-block
+        intent_refs: [problem_statement, desired_outcome, constraints]
+        spec_section_ids: [SIVO-PERF-001, SIVO-PERF-003, SIVO-PERF-005]
+        acceptance_evidence:
+          - evidence_class: benchmark
+            artifact: plans/specs/fixtures/perf_track_a_fixtures_v1.yaml
+          - evidence_class: benchmark
+            artifact: plans/specs/fixtures/perf_track_b_fixtures_v1.yaml
+          - evidence_class: resilience
+            artifact: plans/specs/perf_gates_milestone1_report.md
         given: [A release candidate benchmark run reports threshold failure]
         when: [Release readiness decision is evaluated]
         then: [Release is blocked until remediation or signed waiver]
@@ -749,10 +758,10 @@ tasks:
       trigger_conditions: [benchmark_regression, fixture_instability]
     dependencies: [SIVO-TASK-VERIFY_FOUNDATION, SIVO-TASK-PROT_V1_BASE, SIVO-TASK-DUALMODE_RC]
     owner: performance-engineering
-    status: planned
+    status: in_progress
     priority:
       level: critical
       score: 93
       rationale: Performance gates enforce the core 3-10x product promise.
-    progress: 0
-    confidence: 0.0
+    progress: 16
+    confidence: 0.58

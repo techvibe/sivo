@@ -74,3 +74,12 @@ The dual-mode suite MUST validate:
 - Suite runs on every protocol/storage release candidate.
 - Any deterministic mismatch is release-blocking.
 - Public compatibility report is generated for each release.
+
+## SIVO-DUAL-008 Fixture-backed reconcile determinism
+
+Dual-mode drift classification and cross-host roundtrip behavior MUST be validated with canonical fixtures.
+
+### Acceptance criteria
+- Cross-host roundtrip fixtures are maintained in `fixtures/cross_host_roundtrip_fixtures_v1.yaml`.
+- Drift injection fixtures are maintained in `fixtures/drift_injection_fixtures_v1.yaml`.
+- Fixture suites include deterministic pass and blocking scenarios with explicit expected outcomes.
