@@ -68,4 +68,5 @@ Post-quantum policy enforcement and rotation behavior MUST be validated using ca
 ### Acceptance criteria
 - Hybrid signature fixture suite is maintained in `fixtures/pq_signature_fixtures_v1.yaml`.
 - Crypto rotation fixture suite is maintained in `fixtures/crypto_rotation_fixtures_v1.yaml`.
+- Hybrid transport downgrade fixture suite is maintained in `fixtures/pq_transport_downgrade_fixtures_v1.yaml`.
 - Each fixture suite includes both passing and blocking scenarios with deterministic expected outcomes.

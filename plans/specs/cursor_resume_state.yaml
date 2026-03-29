@@ -1,9 +1,9 @@
 ---
 version: 1.0.0
 project: sivo
-last_update_utc: '2026-03-29T03:43:30Z'
+last_update_utc: '2026-03-29T03:44:54Z'
 current_phase: foundation_hardening
-current_task_id: SIVO-TASK-PQ_CRYPTO_FOUNDATION
+current_task_id: SIVO-TASK-LANGUAGE_RUNTIME_FOUNDATION
 current_task_status: in_progress
 last_completed_tasks:
 - SIVO-TASK-INTENT_BDD_FOUNDATION
@@ -11,6 +11,7 @@ last_completed_tasks:
 - SIVO-TASK-ADV_HARDENING_FOUNDATION
 - SIVO-TASK-VERIFY_FOUNDATION
 - SIVO-TASK-PROT_V1_BASE
+- SIVO-TASK-PQ_CRYPTO_FOUNDATION
 next_task_candidates:
 - SIVO-TASK-INTENT_BDD_FOUNDATION
 - SIVO-TASK-OUTLIER_SAFETY_FOUNDATION
@@ -56,6 +57,8 @@ latest_artifacts:
 - plans/specs/fixtures/crypto_rotation_fixtures_v1.yaml
 - plans/specs/sivo_post_quantum_crypto_v1.md
 - plans/specs/pq_crypto_milestone1_report.md
+- plans/specs/fixtures/pq_transport_downgrade_fixtures_v1.yaml
+- plans/specs/language_runtime_milestone1_report.md
 notes:
 - Resume from foundation tasks in strict dependency order.
 - Fail closed on anomaly or uncertainty breaches.
@@ -64,5 +67,6 @@ notes:
 - SIVO-TASK-ADV_HARDENING_FOUNDATION marked completed with fixture-backed red-team, differential, and canary governance evidence.
 - SIVO-TASK-VERIFY_FOUNDATION marked completed with fixture-backed stage order, waiver, and evidence bundle gate validation.
 - SIVO-TASK-PROT_V1_BASE marked completed with fixture-backed protocol determinism and non-determinism blocking evidence.
-- Execution advanced automatically to SIVO-TASK-PQ_CRYPTO_FOUNDATION.
+- SIVO-TASK-PQ_CRYPTO_FOUNDATION marked completed with fixture-backed hybrid signature, crypto rotation, and transport downgrade conformance evidence.
+- Execution advanced automatically to SIVO-TASK-LANGUAGE_RUNTIME_FOUNDATION.
 - Outlier safety milestone 1 implemented: deterministic anomaly classification and fixture-backed fail-closed expectations are in place.

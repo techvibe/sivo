@@ -213,6 +213,8 @@ tasks:
             artifact: plans/specs/fixtures/pq_signature_fixtures_v1.yaml
           - evidence_class: resilience
             artifact: plans/specs/fixtures/crypto_rotation_fixtures_v1.yaml
+          - evidence_class: policy
+            artifact: plans/specs/fixtures/pq_transport_downgrade_fixtures_v1.yaml
         given: [A release-class seal request in protected environment]
         when: [Signature policy evaluation runs]
         then: [Seal is allowed only if required hybrid components verify]
@@ -251,13 +253,13 @@ tasks:
       trigger_conditions: [crypto_policy_regression, suite_rotation_failure]
     dependencies: [SIVO-TASK-VERIFY_FOUNDATION, SIVO-TASK-PROT_V1_BASE]
     owner: security-engineering
-    status: in_progress
+    status: completed
     priority:
       level: critical
       score: 94
       rationale: Post-quantum-hybrid readiness is required for long-term integrity and enterprise trust.
-    progress: 18
-    confidence: 0.6
+    progress: 100
+    confidence: 0.88
 
   - task_id: SIVO-TASK-LANGUAGE_RUNTIME_FOUNDATION
     title: Implement Rust-core runtime and polyglot API/SDK baseline
@@ -271,6 +273,13 @@ tasks:
       constraints: [Must preserve protocol compatibility and deterministic behavior]
     bdd_scenarios:
       - id: bdd-rust-core-polyglot-access
+        intent_refs: [problem_statement, desired_outcome, constraints]
+        spec_section_ids: [SIVO-LANG-001, SIVO-LANG-002, SIVO-LANG-004, SIVO-LANG-005]
+        acceptance_evidence:
+          - evidence_class: conformance
+            artifact: plans/specs/sivo_language_and_runtime_strategy_v1.md
+          - evidence_class: usability
+            artifact: plans/specs/language_runtime_milestone1_report.md
         given: [Core services are implemented in Rust with stable API contracts]
         when: [Clients from multiple language SDKs call core workflows]
         then: [Behavior and security controls remain consistent across clients]
@@ -309,13 +318,13 @@ tasks:
       trigger_conditions: [sdk-parity-regression, identity-integration-failure]
     dependencies: [SIVO-TASK-VERIFY_FOUNDATION]
     owner: architecture-platform
-    status: planned
+    status: in_progress
     priority:
       level: critical
       score: 91
       rationale: Language and runtime decisions determine long-term performance, security, and adoption success.
-    progress: 0
-    confidence: 0.0
+    progress: 12
+    confidence: 0.55
 
   - task_id: SIVO-TASK-VERIFY_FOUNDATION
     title: Implement verification gate orchestration foundation

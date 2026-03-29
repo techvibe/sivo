@@ -1,12 +1,20 @@
-# Post-Quantum Crypto Milestone 1 Report
+# Post-Quantum Crypto Completion Report
 
-Version: `1.0.0`  
+Version: `1.1.0`  
 Task: `SIVO-TASK-PQ_CRYPTO_FOUNDATION`  
-Status: `in_progress`
+Status: `completed`
 
-## Initial outcomes
+## Scope
 
-- Task activated after protocol v1 baseline completion and dependency unblocking.
-- Hybrid signature policy fixtures added in `fixtures/pq_signature_fixtures_v1.yaml`.
-- Crypto agility rotation fixtures added in `fixtures/crypto_rotation_fixtures_v1.yaml`.
-- Active task traceability payload and evidence linkage are now in place in backlog state.
+- `plans/specs/sivo_post_quantum_crypto_v1.md`
+- `plans/specs/post_quantum_crypto_profile_v1.yaml`
+- `plans/specs/spec_task.backlog.yaml`
+- `plans/specs/fixtures/pq_signature_fixtures_v1.yaml`
+- `plans/specs/fixtures/crypto_rotation_fixtures_v1.yaml`
+- `plans/specs/fixtures/pq_transport_downgrade_fixtures_v1.yaml`
+
+## Check outcomes
+
+- `post_quantum_crypto_conformance`: pass at fixture level (hybrid required components enforced; missing PQ component blocked).
+- `crypto_agility_rotation_drill`: pass at fixture level (rotation continuity pass path and release-blocking failure path validated).
+- `downgrade_detection_policy`: pass at fixture level (hybrid transport downgrade attempts are detected and release-blocking).

@@ -1,0 +1,20 @@
+version: "1.0.0"
+suite_id: pq-transport-downgrade-fixtures-v1
+description: Hybrid transport downgrade detection and release-blocking behavior fixtures.
+fixtures:
+  - fixture_id: transport-hybrid-pass
+    transport_profile: default_hybrid
+    negotiated_components: [classical_x25519, pq_mlkem_768]
+    downgrade_detected: false
+    expected:
+      connection_allowed: true
+      release_blocked: false
+
+  - fixture_id: transport-downgrade-block
+    transport_profile: default_hybrid
+    negotiated_components: [classical_x25519]
+    downgrade_detected: true
+    expected:
+      connection_allowed: false
+      release_blocked: true
+      reason: post_quantum_transport_downgrade_detected
