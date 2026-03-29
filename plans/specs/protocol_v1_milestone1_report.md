@@ -1,11 +1,17 @@
-# Protocol v1 Milestone 1 Report
+# Protocol v1 Completion Report
 
-Version: `1.0.0`  
+Version: `1.1.0`  
 Task: `SIVO-TASK-PROT_V1_BASE`  
-Status: `in_progress`
+Status: `completed`
 
-## Initial outcomes
+## Scope
 
-- Task activated as next unblocked critical dependency after verify foundation completion.
-- BDD traceability payload and evidence linkage added for active protocol determinism scenario.
-- Next milestone focuses on canonical protocol fixture set and replay determinism evidence publication.
+- `plans/specs/sivo_protocol_v1.md`
+- `plans/specs/spec_task.backlog.yaml`
+- `plans/specs/fixtures/protocol_golden_fixtures_v1.yaml`
+
+## Check outcomes
+
+- `schema_lint`: pass (canonical protocol object/operation contract remains consistent).
+- `conformance_dry_run`: pass at fixture level for deterministic golden path.
+- `prot-v1-determinism`: pass at fixture level with explicit non-determinism blocking scenario.

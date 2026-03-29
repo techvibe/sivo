@@ -1,0 +1,18 @@
+version: "1.0.0"
+suite_id: pq-signature-fixtures-v1
+description: Hybrid signature policy fixtures for release-class seal enforcement.
+fixtures:
+  - fixture_id: release-hybrid-pass
+    request:
+      profile: release_default
+      signature_components: [classical_ed25519, pq_mldsa_65]
+    expected:
+      allow_seal: true
+      reason: required_hybrid_components_verified
+  - fixture_id: release-missing-pq-block
+    request:
+      profile: release_default
+      signature_components: [classical_ed25519]
+    expected:
+      allow_seal: false
+      reason: required_post_quantum_component_missing

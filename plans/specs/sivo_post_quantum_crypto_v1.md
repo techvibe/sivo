@@ -60,3 +60,12 @@ Inter-service and client/server channels MUST support hybrid key establishment f
 - Post-quantum conformance tests run in release pipelines.
 - Crypto agility drills (suite rotation, revocation, fallback) run on a defined cadence.
 - Release blocks on failed PQ conformance for protected environments.
+
+## SIVO-PQ-008 Fixture-backed conformance determinism
+
+Post-quantum policy enforcement and rotation behavior MUST be validated using canonical fixtures.
+
+### Acceptance criteria
+- Hybrid signature fixture suite is maintained in `fixtures/pq_signature_fixtures_v1.yaml`.
+- Crypto rotation fixture suite is maintained in `fixtures/crypto_rotation_fixtures_v1.yaml`.
+- Each fixture suite includes both passing and blocking scenarios with deterministic expected outcomes.

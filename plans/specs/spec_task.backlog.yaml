@@ -206,6 +206,13 @@ tasks:
       constraints: [Deterministic replay and Git interoperability must remain stable]
     bdd_scenarios:
       - id: bdd-pq-hybrid-seal-policy
+        intent_refs: [problem_statement, desired_outcome, constraints]
+        spec_section_ids: [SIVO-PQ-001, SIVO-PQ-003, SIVO-PQ-005, SIVO-PQ-007]
+        acceptance_evidence:
+          - evidence_class: conformance
+            artifact: plans/specs/fixtures/pq_signature_fixtures_v1.yaml
+          - evidence_class: resilience
+            artifact: plans/specs/fixtures/crypto_rotation_fixtures_v1.yaml
         given: [A release-class seal request in protected environment]
         when: [Signature policy evaluation runs]
         then: [Seal is allowed only if required hybrid components verify]
@@ -244,13 +251,13 @@ tasks:
       trigger_conditions: [crypto_policy_regression, suite_rotation_failure]
     dependencies: [SIVO-TASK-VERIFY_FOUNDATION, SIVO-TASK-PROT_V1_BASE]
     owner: security-engineering
-    status: planned
+    status: in_progress
     priority:
       level: critical
       score: 94
       rationale: Post-quantum-hybrid readiness is required for long-term integrity and enterprise trust.
-    progress: 0
-    confidence: 0.0
+    progress: 18
+    confidence: 0.6
 
   - task_id: SIVO-TASK-LANGUAGE_RUNTIME_FOUNDATION
     title: Implement Rust-core runtime and polyglot API/SDK baseline
@@ -432,13 +439,13 @@ tasks:
       trigger_conditions: [conformance_failure, schema_breaking_change]
     dependencies: [SIVO-TASK-VERIFY_FOUNDATION]
     owner: core-protocol
-    status: in_progress
+    status: completed
     priority:
       level: critical
       score: 92
       rationale: Protocol determinism and schema correctness are foundational for all downstream services.
-    progress: 10
-    confidence: 0.5
+    progress: 100
+    confidence: 0.87
 
   - task_id: SIVO-TASK-DUALMODE_RC
     title: Implement dual-mode reconcile and drift gates

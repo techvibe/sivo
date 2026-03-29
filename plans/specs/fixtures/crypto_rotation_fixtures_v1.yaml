@@ -1,0 +1,19 @@
+version: "1.0.0"
+suite_id: crypto-rotation-fixtures-v1
+description: Crypto agility rotation fixtures for suite rollover and verification continuity.
+fixtures:
+  - fixture_id: rotation-drill-pass
+    rotation_window_days: 90
+    verification_continuity_preserved: true
+    downgrade_detected: false
+    expected:
+      drill_result: pass
+      release_blocked: false
+  - fixture_id: rotation-drill-fail
+    rotation_window_days: 220
+    verification_continuity_preserved: false
+    downgrade_detected: true
+    expected:
+      drill_result: fail
+      release_blocked: true
+      reason: crypto_agility_rotation_failure

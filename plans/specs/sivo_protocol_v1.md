@@ -110,3 +110,12 @@ MCP tool names MUST map 1:1 to protocol operations with stable naming and versio
 - Version negotiation is explicit in clients and server.
 - Migration notes are generated for every non-patch release.
 - Conformance suite includes mixed-version compatibility tests.
+
+## SIVO-PROT-009 Fixture-backed determinism and conformance
+
+Protocol schema and replay guarantees MUST be validated against canonical fixtures.
+
+### Acceptance criteria
+- Canonical fixtures are maintained in `fixtures/protocol_golden_fixtures_v1.yaml`.
+- Fixture suite includes both deterministic-pass and non-determinism-blocking scenarios.
+- Release is blocked when fixture replay outcomes diverge from deterministic expectations.

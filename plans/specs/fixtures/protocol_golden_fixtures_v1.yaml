@@ -1,0 +1,34 @@
+version: "1.0.0"
+suite_id: protocol-golden-fixtures-v1
+description: Canonical protocol fixtures validating schema and deterministic replay behavior.
+fixtures:
+  - fixture_id: prot-golden-pass
+    input:
+      policy_version: pv1
+      merge_strategy_version: mv1
+      event_stream:
+        - op: create_session
+        - op: claim_scope
+        - op: apply_delta
+        - op: run_validation
+        - op: seal
+    expected:
+      schema_validation: pass
+      replay_deterministic: true
+      projection_id_stable: true
+      gate_decision: allow
+
+  - fixture_id: prot-nondeterminism-block
+    input:
+      policy_version: pv1
+      merge_strategy_version: mv1
+      event_stream:
+        - op: create_session
+        - op: claim_scope
+        - op: apply_delta
+    observed:
+      replay_deterministic: false
+      projection_id_stable: false
+    expected:
+      gate_decision: block_release
+      reason: nondeterminism_incident
