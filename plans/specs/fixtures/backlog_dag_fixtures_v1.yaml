@@ -1,0 +1,17 @@
+version: "1.0.0"
+suite_id: backlog-dag-fixtures-v1
+description: Backlog dependency DAG integrity fixtures.
+fixtures:
+  - fixture_id: dag-valid-acyclic
+    dependency_cycle_detected: false
+    linkage_completeness: 1.0
+    expected:
+      validation: pass
+      reason: dag_integrity_preserved
+
+  - fixture_id: dag-cycle-block
+    dependency_cycle_detected: true
+    linkage_completeness: 0.72
+    expected:
+      validation: fail
+      reason: dependency_cycle_detected

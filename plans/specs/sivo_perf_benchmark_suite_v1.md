@@ -79,3 +79,12 @@ Blocking conditions:
 - Scale tests include repository size, file count, and branch fan-out growth scenarios.
 - Memory index build/update time remains within defined SLOs.
 - Multi-tenant load tests include noisy-neighbor isolation checks.
+
+## SIVO-PERF-007 Fixture-backed benchmark gate determinism
+
+Performance release gate decisions MUST be validated with canonical benchmark fixtures.
+
+### Acceptance criteria
+- Track A fixtures are maintained in `fixtures/perf_track_a_fixtures_v1.yaml`.
+- Track B fixtures are maintained in `fixtures/perf_track_b_fixtures_v1.yaml`.
+- Fixture suites include passing and blocking/warning scenarios with deterministic gate outcomes.

@@ -1,0 +1,19 @@
+version: "1.0.0"
+suite_id: workflow-lifecycle-fixtures-v1
+description: Initiative-to-task lifecycle fixtures with evidence linkage checks.
+fixtures:
+  - fixture_id: lifecycle-pass
+    states: [initiative_created, task_planned, execution_run_completed, task_closed]
+    sealed_session_link_present: true
+    acceptance_evidence_present: true
+    expected:
+      validation: pass
+      reason: lifecycle_and_evidence_integrity
+
+  - fixture_id: lifecycle-block-missing-evidence
+    states: [initiative_created, task_planned, execution_run_completed]
+    sealed_session_link_present: false
+    acceptance_evidence_present: false
+    expected:
+      validation: fail
+      reason: missing_sealed_session_or_evidence

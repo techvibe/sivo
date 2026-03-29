@@ -537,6 +537,15 @@ tasks:
       constraints: [Must preserve deterministic state transitions and RBAC]
     bdd_scenarios:
       - id: bdd-backlog-to-seal
+        intent_refs: [problem_statement, desired_outcome, constraints]
+        spec_section_ids: [SIVO-BACKLOG-001, SIVO-BACKLOG-002, SIVO-BACKLOG-004, SIVO-ARCH-008]
+        acceptance_evidence:
+          - evidence_class: e2e
+            artifact: plans/specs/fixtures/workflow_lifecycle_fixtures_v1.yaml
+          - evidence_class: conformance
+            artifact: plans/specs/fixtures/backlog_dag_fixtures_v1.yaml
+          - evidence_class: usability
+            artifact: plans/specs/backlog_core_milestone1_report.md
         given: [An initiative with tasks and dependencies in Sivo]
         when: [A task execution run completes with acceptance evidence]
         then: [Backlog state updates and links to sealed session provenance]
@@ -575,13 +584,13 @@ tasks:
       trigger_conditions: [data_integrity_failure, dependency_cycle_regression]
     dependencies: [SIVO-TASK-VERIFY_FOUNDATION, SIVO-TASK-PROT_V1_BASE]
     owner: planning-platform
-    status: planned
+    status: in_progress
     priority:
       level: high
       score: 84
       rationale: Native backlog management unlocks Jira-class replacement and autonomous planning loops.
-    progress: 0
-    confidence: 0.0
+    progress: 18
+    confidence: 0.6
 
   - task_id: SIVO-TASK-LEARNING_CONTROL
     title: Implement learning and adaptation with guardrail boundaries
@@ -758,10 +767,10 @@ tasks:
       trigger_conditions: [benchmark_regression, fixture_instability]
     dependencies: [SIVO-TASK-VERIFY_FOUNDATION, SIVO-TASK-PROT_V1_BASE, SIVO-TASK-DUALMODE_RC]
     owner: performance-engineering
-    status: in_progress
+    status: completed
     priority:
       level: critical
       score: 93
       rationale: Performance gates enforce the core 3-10x product promise.
-    progress: 16
-    confidence: 0.58
+    progress: 100
+    confidence: 0.87
