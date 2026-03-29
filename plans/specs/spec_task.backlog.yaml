@@ -716,13 +716,13 @@ tasks:
       trigger_conditions: [incorrect_workflow_docs]
     dependencies: [SIVO-TASK-VERIFY_FOUNDATION]
     owner: docs-and-dx
-    status: in_progress
+    status: completed
     priority:
       level: high
       score: 80
       rationale: Complete guides are required for operational adoption and completeness verification.
-    progress: 20
-    confidence: 0.62
+    progress: 100
+    confidence: 0.85
 
   - task_id: SIVO-TASK-PERF_GATES
     title: Enforce benchmark and scale release gates
