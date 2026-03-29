@@ -43,3 +43,8 @@ Platform administrators responsible for policy, RBAC, integrations, and tenant g
 - Conformance matrix all green.
 - Benchmark gates meet minimum 3.0x multipliers.
 - Critical blockers and open waivers are within policy.
+
+## Verification coverage fixture mapping
+
+- Critical workflow fixture ID: `docs-critical-path-complete`
+- Fixture source: `plans/specs/fixtures/docs_workflow_fixtures_v1.yaml`

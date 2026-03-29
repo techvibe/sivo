@@ -1,12 +1,19 @@
-# Learning Control Milestone 1 Report
+# Learning Control Completion Report
 
-Version: `1.0.0`  
+Version: `1.1.0`  
 Task: `SIVO-TASK-LEARNING_CONTROL`  
-Status: `in_progress`
+Status: `completed`
 
-## Initial outcomes
+## Scope
 
-- Task activated as next highest-priority unblocked work after backlog core completion.
-- Shadow evaluation fixtures added in `fixtures/shadow_eval_fixtures_v1.yaml`.
-- Tenant isolation fixtures added in `fixtures/tenant_isolation_fixtures_v1.yaml`.
-- Active task traceability payload and evidence linkage are now present in backlog state.
+- `plans/specs/sivo_learning_and_adaptation_v1.md`
+- `plans/specs/sivo_ai_memory_and_guardrails_v1.md`
+- `plans/specs/spec_task.backlog.yaml`
+- `plans/specs/fixtures/shadow_eval_fixtures_v1.yaml`
+- `plans/specs/fixtures/tenant_isolation_fixtures_v1.yaml`
+
+## Check outcomes
+
+- `shadow_mode_eval`: pass at fixture level with deterministic rollout block coverage.
+- `policy_boundary_tests`: pass at fixture level with zero allowed guardrail bypass.
+- `tenant_learning_isolation`: pass at fixture level with deterministic cross-tenant leakage blocking behavior.

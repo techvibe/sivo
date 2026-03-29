@@ -651,13 +651,13 @@ tasks:
       trigger_conditions: [policy_boundary_violation, recommendation_regression]
     dependencies: [SIVO-TASK-VERIFY_FOUNDATION, SIVO-TASK-PROT_V1_BASE]
     owner: intelligence-platform
-    status: in_progress
+    status: completed
     priority:
       level: high
       score: 82
       rationale: Learning improves efficiency and adaptation while retaining deterministic policy boundaries.
-    progress: 18
-    confidence: 0.6
+    progress: 100
+    confidence: 0.85
 
   - task_id: SIVO-TASK-GUIDES_DOCS
     title: Publish user, admin, and operator guides with verifiable workflows
@@ -671,6 +671,13 @@ tasks:
       constraints: [Must track versioned workflow references]
     bdd_scenarios:
       - id: bdd-docs-critical-path
+        intent_refs: [problem_statement, desired_outcome, constraints]
+        spec_section_ids: [SIVO-DASH-003, SIVO-VER-004, SIVO-API-004]
+        acceptance_evidence:
+          - evidence_class: conformance
+            artifact: plans/specs/fixtures/docs_workflow_fixtures_v1.yaml
+          - evidence_class: usability
+            artifact: plans/specs/guides_docs_milestone1_report.md
         given: [A release candidate with updated workflows]
         when: [Docs coverage validation runs]
         then: [Critical workflow documentation is complete and verified]
@@ -709,13 +716,13 @@ tasks:
       trigger_conditions: [incorrect_workflow_docs]
     dependencies: [SIVO-TASK-VERIFY_FOUNDATION]
     owner: docs-and-dx
-    status: planned
+    status: in_progress
     priority:
       level: high
       score: 80
       rationale: Complete guides are required for operational adoption and completeness verification.
-    progress: 0
-    confidence: 0.0
+    progress: 20
+    confidence: 0.62
 
   - task_id: SIVO-TASK-PERF_GATES
     title: Enforce benchmark and scale release gates

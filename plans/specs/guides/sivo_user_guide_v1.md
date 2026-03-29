@@ -39,3 +39,8 @@ Developers and AI-tool users collaborating through Sivo-native workflows.
 - If blocked by policy, inspect `policy_verdict_recorded` events.
 - If blocked by drift, inspect dual-mode drift diagnostics.
 - If blocked by benchmarks, inspect gate policy and regressions.
+
+## Verification coverage fixture mapping
+
+- Critical workflow fixture ID: `docs-critical-path-complete`
+- Fixture source: `plans/specs/fixtures/docs_workflow_fixtures_v1.yaml`

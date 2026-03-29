@@ -36,3 +36,8 @@ SRE and operations teams running Sivo control and data plane services.
 - Emit trace IDs for every critical operation.
 - Retain metrics and logs per compliance policy.
 - Export signed incident reports with evidence references.
+
+## Verification coverage fixture mapping
+
+- Critical workflow fixture ID: `docs-critical-path-complete`
+- Fixture source: `plans/specs/fixtures/docs_workflow_fixtures_v1.yaml`

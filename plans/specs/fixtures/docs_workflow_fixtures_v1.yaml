@@ -1,0 +1,22 @@
+version: "1.0.0"
+suite_id: docs-workflow-fixtures-v1
+description: Critical-path documentation coverage fixtures for user/admin/operator guides.
+fixtures:
+  - fixture_id: docs-critical-path-complete
+    required_workflows_covered:
+      - user_core_session_flow
+      - admin_guardrail_rollout
+      - operator_incident_response
+    coverage_ratio: 1.0
+    expected:
+      docs_coverage_check: pass
+      reason: critical_workflows_fully_documented
+
+  - fixture_id: docs-critical-path-missing-runbook
+    required_workflows_covered:
+      - user_core_session_flow
+      - admin_guardrail_rollout
+    coverage_ratio: 0.67
+    expected:
+      docs_coverage_check: fail
+      reason: missing_operator_incident_response_coverage
