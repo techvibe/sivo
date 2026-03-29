@@ -1,0 +1,17 @@
+version: "1.0.0"
+suite_id: tenant-isolation-fixtures-v1
+description: Learning signal and recommendation tenant isolation fixtures.
+fixtures:
+  - fixture_id: tenant-isolation-pass
+    cross_tenant_data_leak_detected: false
+    cross_tenant_recommendation_visibility: false
+    expected:
+      isolation: pass
+      reason: tenant_boundary_preserved
+
+  - fixture_id: tenant-isolation-block
+    cross_tenant_data_leak_detected: true
+    cross_tenant_recommendation_visibility: true
+    expected:
+      isolation: fail
+      reason: cross_tenant_leakage_detected

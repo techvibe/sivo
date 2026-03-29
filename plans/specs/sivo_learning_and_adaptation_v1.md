@@ -76,3 +76,12 @@ Sivo MUST expose neutral adapters so future AI tools and model providers can int
 - Learning signals include anomaly and poisoning detection checks before training/rollout.
 - Suspect signal slices are quarantined from active recommendation pipelines.
 - Outlier-induced recommendation regressions automatically trigger fallback mode.
+
+## SIVO-LEARN-008 Fixture-backed learning safety determinism
+
+Learning rollout and tenant isolation behavior MUST be validated with canonical fixtures.
+
+### Acceptance criteria
+- Shadow evaluation fixtures are maintained in `fixtures/shadow_eval_fixtures_v1.yaml`.
+- Tenant isolation fixtures are maintained in `fixtures/tenant_isolation_fixtures_v1.yaml`.
+- Fixture suites include passing and blocking scenarios with deterministic expected outcomes.

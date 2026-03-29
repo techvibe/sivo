@@ -71,3 +71,12 @@ Required surfaces:
 - API and CLI support bulk operations and machine-readable outputs.
 - RBAC enforces who can reprioritize, approve, and close work.
 - Dashboard shows queue health, cycle time, and blocked dependency clusters.
+
+## SIVO-BACKLOG-007 Fixture-backed DAG and lifecycle determinism
+
+Backlog dependency integrity and lifecycle-to-evidence linkage MUST be validated via canonical fixtures.
+
+### Acceptance criteria
+- DAG fixtures are maintained in `fixtures/backlog_dag_fixtures_v1.yaml`.
+- Workflow lifecycle fixtures are maintained in `fixtures/workflow_lifecycle_fixtures_v1.yaml`.
+- Fixture suites include passing and blocking scenarios with deterministic expected outcomes.

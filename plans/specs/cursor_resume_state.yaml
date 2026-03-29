@@ -1,9 +1,9 @@
 ---
 version: 1.0.0
 project: sivo
-last_update_utc: '2026-03-29T03:49:25Z'
+last_update_utc: '2026-03-29T03:50:18Z'
 current_phase: foundation_hardening
-current_task_id: SIVO-TASK-BACKLOG_CORE
+current_task_id: SIVO-TASK-LEARNING_CONTROL
 current_task_status: in_progress
 last_completed_tasks:
 - SIVO-TASK-INTENT_BDD_FOUNDATION
@@ -15,6 +15,7 @@ last_completed_tasks:
 - SIVO-TASK-LANGUAGE_RUNTIME_FOUNDATION
 - SIVO-TASK-DUALMODE_RC
 - SIVO-TASK-PERF_GATES
+- SIVO-TASK-BACKLOG_CORE
 next_task_candidates:
 - SIVO-TASK-INTENT_BDD_FOUNDATION
 - SIVO-TASK-OUTLIER_SAFETY_FOUNDATION
@@ -75,6 +76,11 @@ latest_artifacts:
 - plans/specs/fixtures/workflow_lifecycle_fixtures_v1.yaml
 - plans/specs/backlog_core_milestone1_report.md
 - plans/specs/sivo_perf_benchmark_suite_v1.md
+- plans/specs/fixtures/shadow_eval_fixtures_v1.yaml
+- plans/specs/fixtures/tenant_isolation_fixtures_v1.yaml
+- plans/specs/learning_control_milestone1_report.md
+- plans/specs/sivo_backlog_state_manager_v1.md
+- plans/specs/sivo_learning_and_adaptation_v1.md
 notes:
 - Resume from foundation tasks in strict dependency order.
 - Fail closed on anomaly or uncertainty breaches.
@@ -87,5 +93,6 @@ notes:
 - SIVO-TASK-LANGUAGE_RUNTIME_FOUNDATION marked completed with fixture-backed SDK parity and enterprise identity interoperability conformance evidence.
 - SIVO-TASK-DUALMODE_RC marked completed with fixture-backed cross-host roundtrip and drift-blocking conformance evidence.
 - SIVO-TASK-PERF_GATES marked completed with fixture-backed track A/B benchmark gate evidence.
-- Execution advanced automatically to SIVO-TASK-BACKLOG_CORE.
+- SIVO-TASK-BACKLOG_CORE marked completed with fixture-backed DAG integrity and lifecycle evidence linkage validation.
+- Execution advanced automatically to SIVO-TASK-LEARNING_CONTROL.
 - Outlier safety milestone 1 implemented: deterministic anomaly classification and fixture-backed fail-closed expectations are in place.

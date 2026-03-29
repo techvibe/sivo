@@ -1,0 +1,17 @@
+version: "1.0.0"
+suite_id: shadow-eval-fixtures-v1
+description: Shadow-mode recommendation evaluation fixtures for learning rollout safety.
+fixtures:
+  - fixture_id: shadow-eval-pass
+    policy_boundary_violations: 0
+    recommendation_regression_rate: 0.02
+    expected:
+      rollout_decision: allow_pilot
+      reason: within_guardrail_thresholds
+
+  - fixture_id: shadow-eval-block
+    policy_boundary_violations: 2
+    recommendation_regression_rate: 0.08
+    expected:
+      rollout_decision: block
+      reason: guardrail_or_regression_breach
